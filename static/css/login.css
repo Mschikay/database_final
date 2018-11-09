@@ -1,0 +1,51 @@
+
+.formLogin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+.formLogin .checkbox {
+  font-weight: 400;
+}
+.formLogin .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.formLogin .form-control:focus {
+  z-index: 2;
+}
+.formLogin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.formLogin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+form.formLogin > input{
+    background: #e5e5e5;
+    line-height: 30px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 0 22px;
+    font-size: 16px;
+    color: #555;
+}
+form.formLogin > input:focus{
+    background-color: #e3a034;
+}
+#login, #register{
+  border: none;
+  background-color: #a5d458;
+}
+#login:hover,
+#register:hover{
+    background-color: #4dae3c;
+}
