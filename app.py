@@ -1,80 +1,98 @@
 from flask import render_template, Flask, session, redirect, url_for, escape, request, flash
-from flask_wtf.csrf import CSRFProtect
 
 from config import app
-from view import loginForm, selectForm
-
-#
-# def is_submitted(self):
-#     """
-#     Checks if form has been submitted. The default case is if the HTTP
-#     method is **PUT** or **POST**.
-#     """
-#
-#     return self.request and self.request.method in ("PUT", "POST")
-#
-#
-# def validate_on_submit(self):
-#     """
-#     Checks if form has been submitted and if so runs validate. This is
-#     a shortcut, equivalent to ``form.is_submitted() and form.validate()``
-#     """
-#     return self.is_submitted() and self.validate()
-
-
-@property
-def data(self):
-    return dict((name, f.data) for name, f in self._fields)
 
 
 app = app
-# csrf = CSRFProtect()
-# csrf.init_app(app)
 
 
-# @csrf.exempt
-
+# MAIN PAGE
 @app.route('/', methods=['GET', 'POST'])
 def main_page():
     session['user'] = ''
     session['status'] = ''
-    loginform = loginForm()
-    selectform = selectForm()
+    loginout = "login"
     error = None
     flashMsg = ''
 
     if request.method == 'POST':
-        app.logger.debug(loginform.validate_on_submit())
-        app.logger.debug(loginform.buttonLogin.data)
+        whichPost = request.form.get('post')
+        app.logger.debug(whichPost)
 
-        app.logger.debug(selectform.validate_on_submit())
-        app.logger.debug(selectform.selectRecord.data)
-        flash(loginform.errors)
-        flash(selectform.errors)
+        # login
+        if whichPost == 'logInOut':
+            app.logger.debug('waiting for data')
 
-        # if loginform.buttonLogin.data and loginform.validate_on_submit():
-        #     app.logger.debug('waiting for data')
-        #
-        #     userEmail = request.form['userEmail']
-        #     userPwd = request.form['userPwd']
-        #     print(userEmail, userPwd)
-        #     if userEmail == 'yiweiyh@163.com' and userPwd == '123':
-        #         session['user'] = userEmail
-        #         session['status'] = 'login succeed'
-        #         session['name'] = "Hannah"
-        #         app.logger.info('got it')
-        #         return redirect(url_for('login', name=session['name']), 302)
-        #
-        # elif selectform.buttonSearch.data and selectform.validate_on_submit():
-        #     return "search page"
-        return "hi"
-    return render_template('shop-homepage.html')
+            userEmail = request.form['userEmail']
+            userPwd = request.form['userPwd']
+
+            print(userEmail, userPwd)
+            if userEmail == 'yiweiyh@163.com' and userPwd == '123':
+                session['user'] = userEmail
+                session['status'] = 'login succeed'
+                session['name'] = "Hannah"
+                app.logger.info('got it')
+                return redirect(url_for('isLogin', name=session['name']), 302)
+
+        else:
+            flash('please login')
+            # return redirect(url_for('index'), 302)
+            return render_template('index.html')
+
+    return render_template('shop-homepage.html', loginout=loginout)
 
 
-@app.route('/<name>')
-def login(name):
-    hello = "hello, "
-    return render_template('shop-homepage.html', hello=hello, name=name)
+@app.route('/index', methods=['GET', 'POST'])
+def index():
+    return render_template('index.html')
+
+
+# REGISTER PAGE
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    return render_template('register.html')
+
+
+# PAGE LOADED AFTER LOGIN
+@app.route('/<name>', methods=['GET', 'POST'])
+def isLogin(name):
+    hello = "Hello, "
+
+    if request.method == 'POST':
+        whichPost = request.form['post']
+
+        # search, select sql
+        if whichPost == 'logInOut':
+            '''doing log out.'''
+            flash('you have logged out.')
+
+        elif whichPost == 'search':
+            if session['user']:
+                app.logger.debug(request.form.get('selectRecord'))
+                app.logger.debug(request.form.get('buttonSearch'))
+                app.logger.debug(request.form.get('checkBoxRegion'))
+                app.logger.debug(request.form.get('checkBoxProductName'))
+                app.logger.debug(request.form.get('checkBoxStoreName'))
+
+                return request.form.get('selectRecord')
+
+        # add to shopping cart
+        elif whichPost == "addToCart":
+            pass
+
+        # remove items to cart
+        elif whichPost == 'removeFromCart':
+            pass
+
+        # unknown request
+        else:
+            return 'Unknown Error'
+
+    # display by kind
+    if request.method == 'GET':
+        pass
+
+    return render_template('shop-homepage.html', hello=hello, name=name, loginout='log out')
 
 
 if __name__ == '__main__':

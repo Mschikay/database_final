@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="475e14e4-c86c-4e33-90b1-8c372092ca5b" name="Default" comment="" />
+    <list default="true" id="475e14e4-c86c-4e33-90b1-8c372092ca5b" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/shop-homepage.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/shop-homepage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/js/shop-homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/shop-homepage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/shop-homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/shop-homepage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/view.py" beforeDir="false" afterPath="$PROJECT_DIR$/view.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -10,8 +18,8 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/back$db.coverage" NAME="db Coverage Results" MODIFIED="1541451193954" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/app$db.coverage" NAME="db Coverage Results" MODIFIED="1541724147933" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/app$app.coverage" NAME="app Coverage Results" MODIFIED="1541722935045" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/app$db.coverage" NAME="db Coverage Results" MODIFIED="1541787722197" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/app$app.coverage" NAME="app Coverage Results" MODIFIED="1541814370984" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>
   <component name="CoverageViewManager">
     <option name="myElementSize" value="335" />
@@ -26,27 +34,32 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="html" value="494" />
-          <entry key="js" value="154" />
-          <entry key="py" value="1856" />
+          <entry key="Python Console" value="58" />
+          <entry key="css" value="93" />
+          <entry key="html" value="962" />
+          <entry key="js" value="707" />
+          <entry key="py" value="3440" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="HTML" value="494" />
-          <entry key="JavaScript" value="154" />
-          <entry key="Python" value="1856" />
+          <entry key="CSS" value="93" />
+          <entry key="HTML" value="962" />
+          <entry key="JavaScript" value="707" />
+          <entry key="Python" value="3498" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="html" value="1" />
+          <entry key="css" value="1" />
+          <entry key="html" value="2" />
           <entry key="py" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="HTML" value="1" />
+          <entry key="CSS" value="1" />
+          <entry key="HTML" value="2" />
           <entry key="Python" value="2" />
         </counts>
       </usages-collector>
@@ -57,25 +70,22 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="52" column="24" selection-start-line="52" selection-start-column="24" selection-end-line="52" selection-end-column="24" />
+            <state relative-caret-position="246">
+              <caret line="39" column="12" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="12" />
               <folding>
                 <element signature="e#0#92#0" expanded="true" />
+                <marker date="1541814602099" expanded="true" signature="1272:1316" ph="..." />
+                <marker date="1541814602099" expanded="true" signature="1441:1469" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/view.py">
+        <entry file="file://$PROJECT_DIR$/templates/index.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
-              <caret line="12" column="46" selection-start-line="12" selection-start-column="46" selection-end-line="12" selection-end-column="46" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-                <marker date="1541735091198" expanded="true" signature="191:192" ph="..." />
-                <marker date="1541735091198" expanded="true" signature="411:502" ph="..." />
-              </folding>
+              <caret line="12" column="27" lean-forward="true" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -83,8 +93,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/shop-homepage.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="130">
-              <caret line="86" column="18" selection-start-line="86" selection-start-column="18" selection-end-line="86" selection-end-column="18" />
+            <state relative-caret-position="-936">
+              <caret line="113" column="83" selection-start-line="113" selection-start-column="83" selection-end-line="113" selection-end-column="83" />
+              <folding>
+                <element signature="e#4985#4991#0#HTML" expanded="true" />
+                <element signature="e#4991#4997#0#HTML" expanded="true" />
+                <element signature="e#4997#5003#0#HTML" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -92,8 +107,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/js/shop-homepage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="147">
-              <caret line="21" column="35" selection-start-line="21" selection-start-column="35" selection-end-line="21" selection-end-column="35" />
+            <state relative-caret-position="225">
+              <caret line="22" column="49" selection-start-line="22" selection-start-column="49" selection-end-line="22" selection-end-column="49" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -129,6 +144,7 @@
       <list>
         <option value="Flask Main" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -139,18 +155,27 @@
       <find>form</find>
       <find>radio</find>
       <find>&lt;label for</find>
+      <find>formS</find>
+      <find>inputP</find>
+      <find>logInOut</find>
+      <find>loginout</find>
+      <find>search</find>
     </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/back.py" />
-        <option value="$PROJECT_DIR$/static/css/shop-homepage.css" />
         <option value="$PROJECT_DIR$/config.py" />
-        <option value="$PROJECT_DIR$/static/js/shop-homepage.js" />
         <option value="$PROJECT_DIR$/db.py" />
-        <option value="$PROJECT_DIR$/templates/shop-homepage.html" />
         <option value="$PROJECT_DIR$/view.py" />
+        <option value="$PROJECT_DIR$/static/js/shop-homepage.js" />
+        <option value="$PROJECT_DIR$/static/css/shop-homepage.css" />
+        <option value="$PROJECT_DIR$/templates/index.html" />
+        <option value="$PROJECT_DIR$/templates/shop-homepage.html" />
         <option value="$PROJECT_DIR$/app.py" />
       </list>
     </option>
@@ -165,6 +190,7 @@
     <option name="width" value="1440" />
     <option name="height" value="900" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -214,8 +240,9 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
@@ -230,7 +257,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.db">
+  <component name="RunManager" selected="Python.app">
     <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
       <module name="back" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -481,20 +508,20 @@
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22246066" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.22246066" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.518598" weight="0.26024097" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.518598" visible="true" weight="0.26024097" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49713877" weight="0.39903265" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49713877" weight="0.32771084" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.5593705" visible="true" weight="0.33373493" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.5593705" weight="0.33373493" />
       <window_info anchor="bottom" id="Python Console" order="9" sideWeight="0.49713877" weight="0.32771084" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.481402" side_tool="true" weight="0.32889965" />
       <window_info anchor="right" id="SciView" />
@@ -513,17 +540,17 @@
       <window_info anchor="bottom" id="Database Changes" order="1" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="2" />
       <window_info anchor="bottom" id="Find" order="3" />
-      <window_info anchor="bottom" id="Run" order="4" sideWeight="0.518598" weight="0.26024097" />
+      <window_info active="true" anchor="bottom" id="Run" order="4" sideWeight="0.518598" visible="true" weight="0.26024097" />
       <window_info anchor="bottom" id="Debug" order="5" sideWeight="0.49713877" weight="0.39903265" />
       <window_info anchor="bottom" id="Cvs" order="6" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="7" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="8" sideWeight="0.49713877" weight="0.32771084" />
       <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" sideWeight="0.5593705" visible="true" weight="0.33373493" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.5593705" weight="0.33373493" />
       <window_info anchor="bottom" id="Python Console" order="11" sideWeight="0.49713877" weight="0.32771084" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.481402" side_tool="true" weight="0.32889965" />
       <window_info anchor="right" id="SciView" order="0" />
-      <window_info anchor="right" id="Coverage" order="1" side_tool="true" visible="true" weight="0.3297568" />
+      <window_info anchor="right" id="Coverage" order="1" side_tool="true" weight="0.3297568" />
       <window_info anchor="right" id="Commander" order="2" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.25" />
@@ -539,17 +566,22 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/flask.log" />
-    <entry file="file://$PROJECT_DIR$/static/css/shop-homepage.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="3" lean-forward="true" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../try.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="354">
           <caret line="54" column="44" lean-forward="true" selection-start-line="54" selection-start-column="44" selection-end-line="54" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/view.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="43" selection-start-line="12" selection-start-column="43" selection-end-line="12" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+            <marker date="1541788647890" expanded="true" signature="191:192" ph="..." />
+            <marker date="1541788647890" expanded="true" signature="424:519" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -572,39 +604,48 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/static/js/shop-homepage.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="21" column="35" selection-start-line="21" selection-start-column="35" selection-end-line="21" selection-end-column="35" />
+        <state relative-caret-position="225">
+          <caret line="22" column="49" selection-start-line="22" selection-start-column="49" selection-end-line="22" selection-end-column="49" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/shop-homepage.html">
+    <entry file="file://$PROJECT_DIR$/static/css/shop-homepage.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="86" column="18" selection-start-line="86" selection-start-column="18" selection-end-line="86" selection-end-column="18" />
+        <state relative-caret-position="185">
+          <caret line="75" column="30" selection-start-line="75" selection-start-column="30" selection-end-line="75" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/view.py">
+    <entry file="file://$PROJECT_DIR$/templates/shop-homepage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-936">
+          <caret line="113" column="83" selection-start-line="113" selection-start-column="83" selection-end-line="113" selection-end-column="83" />
+          <folding>
+            <element signature="e#4985#4991#0#HTML" expanded="true" />
+            <element signature="e#4991#4997#0#HTML" expanded="true" />
+            <element signature="e#4997#5003#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
-          <caret line="12" column="46" selection-start-line="12" selection-start-column="46" selection-end-line="12" selection-end-column="46" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <marker date="1541735091198" expanded="true" signature="191:192" ph="..." />
-            <marker date="1541735091198" expanded="true" signature="411:502" ph="..." />
-          </folding>
+          <caret line="12" column="27" lean-forward="true" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="52" column="24" selection-start-line="52" selection-start-column="24" selection-end-line="52" selection-end-column="24" />
+        <state relative-caret-position="246">
+          <caret line="39" column="12" selection-start-line="39" selection-start-column="12" selection-end-line="39" selection-end-column="12" />
           <folding>
             <element signature="e#0#92#0" expanded="true" />
+            <marker date="1541814602099" expanded="true" signature="1272:1316" ph="..." />
+            <marker date="1541814602099" expanded="true" signature="1441:1469" ph="..." />
           </folding>
         </state>
       </provider>

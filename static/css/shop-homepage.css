@@ -98,3 +98,10 @@ svg{
 svg:hover{
     cursor: pointer;
 }
+button#buttonLogin.btn.btn-lg.btn-block.btn-primary.btn-color{
+    background-color: gray;
+}
+button#buttonLogin.btn.btn-lg.btn-block.btn-primary.btn-color:hover{
+    border-color: #a5d458;
+    background-color: #a5d458
+}
