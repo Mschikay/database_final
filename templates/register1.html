@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
+
+    <!-- Title Page-->
+    <title>Signup</title>
+
+    <!-- Icons font CSS-->
+    <!--<link href="css/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">-->
+    <!--<link href="css/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">-->
+    <!--&lt;!&ndash; Font special for pages&ndash;&gt;-->
+    <!--<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">-->
+
+    <!-- Vendor CSS-->
+    <link href="{{ url_for('static', filename='css/select2/select2.min.css') }}" rel="stylesheet" media="all">
+    <link href="{{ url_for('static', filename='css/datepicker/daterangepicker.css') }}" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="{{ url_for('static', filename='css/register.css') }}" rel="stylesheet" media="all">
+    <link href="{{ url_for('static', filename='css/register1.css') }}" rel="stylesheet">
+</head>
+
+<body>
+<div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
+    <div class="wrapper wrapper--w790">
+        <div class="card card-5">
+            <div class="card-heading">
+                <h2 class="title">Sign up for GreenEat</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="form-row p-t-20">
+                        <label class="label label--block">Are you an individual or a company?</label>
+                        <div class="p-t-15">
+                            <label class="radio-container m-r-55">individual
+                                <input type="radio" checked="checked" name="AdPrintMode" value="1" onclick="divClick();">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="radio-container">company
+                                <input type="radio" name="AdPrintMode" value="2" onclick="divClick();">
+                                <span class="checkmark"></span>
+                            </label>
+
+                        </div>
+                    </div>
+
+
+				    <div class="form-row" id="individual" style="display: block">
+					    <div class="form-row m-b-55">
+                        <div class="name">Name</div>
+                        <div class="value">
+                            <div class="row row-space">
+                                <div class="col-2">
+                                    <div class="input-group-desc">
+                                        <input class="input--style-5" type="text" name="first_name">
+                                        <label class="label--desc">first name</label>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="input-group-desc">
+                                        <input class="input--style-5" type="text" name="last_name">
+                                        <label class="label--desc">last name</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="form-row">
+                        <div class="name">Email</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input class="input--style-5" type="email" name="Iemail">
+                            </div>
+                        </div>
+                    </div>
+                        <div class="form-row">
+                        <div class="name">Password</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input class="input--style-5" type="password" name="Ipassword">
+                            </div>
+                        </div>
+                    </div>
+                        <div class="form-row m-b-55">
+                        <div class="name">Address</div>
+                        <div class="value">
+                            <div class="row row-refine">
+                                <div class="col-3">
+                                    <div class="input-group-desc">
+                                        <input class="input--style-5" type="text" name="Izip_code">
+                                        <label class="label--desc">Zip_Code</label>
+                                    </div>
+                                </div>
+								<div class="col-8">
+                                    <div class="input-group-desc">
+                                        <input class="input--style-5" type="text" name="Istreet">
+                                        <label class="label--desc">Street</label>
+                                    </div>
+                                </div>
+
+								<div class="col-3">
+                                    <div class="input-group-desc">
+                                        <input class="input--style-5" type="text" name="Icity">
+                                        <label class="label--desc">City</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				    	<div class="form-row">
+                        <div class="name">Age</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input class="input--style-5" type="number" name="age">
+                            </div>
+                        </div>
+                    </div>
+				    	<div class="form-row">
+                        <div class="name">Annual Income</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input class="input--style-5" type="number" name="annu_income">
+                            </div>
+                        </div>
+                    </div>
+                        <div class="form-row">
+                        <div class="name">Marriage</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <div class="rs-select2 js-select-simple select--no-search">
+                                    <select name="subject">
+                                        <option disabled="disabled" selected="selected">Choose option</option>
+                                        <option>Married</option>
+										<option>Single</option>
+                                    </select>
+                                    <div class="select-dropdown"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+			        <div class="form-row" id="business" style="display: none">
+					    <div class="form-row">
+                        <div class="name">Name</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input class="input--style-5" type="text" name="name">
+                            </div>
+                        </div>
+                    </div>
+
+                        <div class="form-row">
+                        <div class="name">Email</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input class="input--style-5" type="email" name="Bemail">
+                            </div>
+                        </div>
+                    </div>
+                      <div class="form-row">
+                        <div class="name">Password</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input class="input--style-5" type="password" name="Bpassword">
+                            </div>
+                        </div>
+                    </div>
+                      <div class="form-row m-b-55">
+                        <div class="name">Address</div>
+                        <div class="value">
+                            <div class="row row-refine">
+                                <div class="col-3">
+                                    <div class="input-group-desc">
+                                        <input class="input--style-5" type="text" name="Bzip_code">
+                                        <label class="label--desc">Zip_Code</label>
+                                    </div>
+                                </div>
+								<div class="col-8">
+                                    <div class="input-group-desc">
+                                        <input class="input--style-5" type="text" name="Bstreet">
+                                        <label class="label--desc">Street</label>
+                                    </div>
+                                </div>
+
+								<div class="col-3">
+                                    <div class="input-group-desc">
+                                        <input class="input--style-5" type="text" name="Bcity">
+                                        <label class="label--desc">City</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+				    	<div class="form-row">
+                        <div class="name">Annual Income</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input class="input--style-5" type="number" name="bus_income">
+                            </div>
+                        </div>
+                    </div>
+                      <div class="form-row">
+                        <div class="name">Category</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <div class="rs-select2 js-select-simple select--no-search">
+                                    <select name="subject">
+                                        <option disabled="disabled" selected="selected">Choose option</option>
+                                        <option>Service</option>
+										<option>Food</option>
+                                    </select>
+                                    <div class="select-dropdown"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+			        </div>
+
+                    <div>
+                        <button class="btn btn--radius-2 btn--green" type="submit">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Jquery JS-->
+<script src="{{ url_for('static', filename='js/jquery/jquery.min.js') }}"></script>
+
+<!-- Vendor JS-->
+
+<script src="{{ url_for('static', filename='js/select2/select2.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/datepicker/moment.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/datepicker/daterangepicker.js') }}"></script>
+
+<!-- Main JS-->
+<script src="{{ url_for('static', filename='js/global.js') }}"></script>
+<script type="text/javascript">
+ 	                    function divClick(){
+
+                        var show="";
+                        var apm = document.getElementsByName("AdPrintMode");
+                        for(var i=0;i<apm.length;i++){
+                        if(apm[i].checked)
+                        show = apm[i].value;
+        }
+
+        switch (show){
+            case '1':
+                document.getElementById("individual").style.display="block";
+                document.getElementById("business").style.display="none";
+                break;
+            case '2':
+                document.getElementById("individual").style.display="none";
+                document.getElementById("business").style.display="block";
+                break;
+            default:
+                document.getElementById("individual").style.display="none";
+                document.getElementById("business").style.display="none";
+                break;
+        }
+ }
+					</script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
+</html>
+<!-- end document-->

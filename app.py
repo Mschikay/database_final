@@ -1,13 +1,18 @@
-from flask import render_template, Flask, session, redirect, url_for, escape, request, flash
-
+from flask import render_template, Flask, session, redirect, url_for, escape, request, flash, jsonify, json
+from flask_cors import CORS, cross_origin
 from config import app
-
+from sqlalchemy.sql import exists
+from db import sessionDB
+from models import *
+import modelController as mc
 
 app = app
+CORS(app, support_credentials=True)
 
 
 # MAIN PAGE
 @app.route('/', methods=['GET', 'POST'])
+@cross_origin(supports_credentials=True)
 def main_page():
     session['user'] = ''
     session['status'] = ''
@@ -17,34 +22,52 @@ def main_page():
 
     if request.method == 'POST':
         whichPost = request.form.get('post')
-        app.logger.debug(whichPost)
 
         # login
         if whichPost == 'logInOut':
-            app.logger.debug('waiting for data')
+            # get email and password from html
+            userEmail = request.form.get('userEmail')
+            userPwd = request.form.get('userPwd')
 
-            userEmail = request.form['userEmail']
-            userPwd = request.form['userPwd']
+            emailExist=sessionDB.query(exists().where(Customer.email == userEmail)).scalar()
+            if emailExist:
+                records = sessionDB.query(Customer).filter(Customer.email == userEmail)
+                session['pwd'] = ''
+                r = None
+                for record in records:
+                    r = record
+                if r.passwords == userPwd:
+                    session['pwd'] = r.passwords
+                    session['user'] = r.email
+                    session['status'] = 'login succeed'
+                    session['cID'] = r.cID
 
-            print(userEmail, userPwd)
-            if userEmail == 'yiweiyh@163.com' and userPwd == '123':
-                session['user'] = userEmail
-                session['status'] = 'login succeed'
-                session['name'] = "Hannah"
-                app.logger.info('got it')
-                return redirect(url_for('isLogin', name=session['name']), 302)
+                    # get user's name
+                    homeRecord = sessionDB.query(HomeCu).filter(HomeCu.cID == session['cID'])
+                    first_name = ''
+                    last_name = ''
+                    for hr in homeRecord:
+                        first_name = hr.fname
+                        last_name = hr.lname
+                    session['fullname'] = first_name + ' ' + last_name
+
+                else:
+                    pass
+                    # wrong password
+            else:
+                pass
+                # email not exists
+            return redirect(url_for('isLogin', name=first_name), 302)
 
         else:
-            flash('please login')
+            app.logger.debug('please login')
             # return redirect(url_for('index'), 302)
-            return render_template('index.html')
-
-    return render_template('shop-homepage.html', loginout=loginout)
+            return render_template('shop-homepage.html', loginout='Login')
 
 
-@app.route('/index', methods=['GET', 'POST'])
-def index():
-    return render_template('index.html')
+    # display by kind
+    if request.method == 'GET':
+        return render_template('shop-homepage.html', loginout=loginout)
 
 
 # REGISTER PAGE
@@ -61,20 +84,21 @@ def isLogin(name):
     if request.method == 'POST':
         whichPost = request.form['post']
 
-        # search, select sql
+        # log out
         if whichPost == 'logInOut':
             '''doing log out.'''
             flash('you have logged out.')
 
+        # search, select sql
         elif whichPost == 'search':
-            if session['user']:
-                app.logger.debug(request.form.get('selectRecord'))
-                app.logger.debug(request.form.get('buttonSearch'))
-                app.logger.debug(request.form.get('checkBoxRegion'))
-                app.logger.debug(request.form.get('checkBoxProductName'))
-                app.logger.debug(request.form.get('checkBoxStoreName'))
+            selectRecord = request.form.get('selectRecord', None)
+            result = mc.search(selectRecord)
+            print(result)
 
-                return request.form.get('selectRecord')
+            if not result:
+                # turn to json
+                data = jsonify(productName='llogin')
+                return data
 
         # add to shopping cart
         elif whichPost == "addToCart":
@@ -90,7 +114,20 @@ def isLogin(name):
 
     # display by kind
     if request.method == 'GET':
-        pass
+        if request.args.get('kind'):
+            app.logger.debug(request.args.get('kind'))
+            whichCategory = request.args.get('category', '')
+
+            # get the result
+            result = mc.searchKind(whichCategory)
+            if not result:
+                print(result)
+
+            # turn to json
+            data = jsonify(productName='lalala', productPrice='$'+'4.5', productDescription=request.args.get('kind'))
+            # json_data = json.loads(request.get_data())
+            # kind = json_data["kind"]
+            return data
 
     return render_template('shop-homepage.html', hello=hello, name=name, loginout='log out')
 
