@@ -50,6 +50,7 @@ def main_page():
                         first_name = hr.fname
                         last_name = hr.lname
                     session['fullname'] = first_name + ' ' + last_name
+                    return redirect(url_for('isLogin', name=first_name, cid=session['cID']), 302)
 
                 else:
                     pass
@@ -57,13 +58,12 @@ def main_page():
             else:
                 pass
                 # email not exists
-            return redirect(url_for('isLogin', name=first_name), 302)
+
 
         else:
             app.logger.debug('please login')
             # return redirect(url_for('index'), 302)
             return render_template('shop-homepage.html', loginout='Login')
-
 
     # display by kind
     if request.method == 'GET':
@@ -77,8 +77,8 @@ def register():
 
 
 # PAGE LOADED AFTER LOGIN
-@app.route('/<name>', methods=['GET', 'POST'])
-def isLogin(name):
+@app.route('/<name>_<cid>/', methods=['GET', 'POST'])
+def isLogin(name, cid):
     hello = "Hello, "
 
     if request.method == 'POST':
@@ -92,12 +92,11 @@ def isLogin(name):
         # search, select sql
         elif whichPost == 'search':
             selectRecord = request.form.get('selectRecord', None)
-            result = mc.search(selectRecord)
-            print(result)
-
-            if not result:
+            data = mc.search(selectRecord)
+            app.logger.debug(data)
+            if data:
+                print(data)
                 # turn to json
-                data = jsonify(productName='llogin')
                 return data
 
         # add to shopping cart
@@ -114,22 +113,15 @@ def isLogin(name):
 
     # display by kind
     if request.method == 'GET':
-        if request.args.get('kind'):
-            app.logger.debug(request.args.get('kind'))
-            whichCategory = request.args.get('category', '')
-
+        whichCategory = request.args.get('kind', '')
+        app.logger.debug(whichCategory)
+        if whichCategory:
             # get the result
-            result = mc.searchKind(whichCategory)
-            if not result:
-                print(result)
+            data = mc.searchKind(whichCategory)
+            if data:
+                return data
 
-            # turn to json
-            data = jsonify(productName='lalala', productPrice='$'+'4.5', productDescription=request.args.get('kind'))
-            # json_data = json.loads(request.get_data())
-            # kind = json_data["kind"]
-            return data
-
-    return render_template('shop-homepage.html', hello=hello, name=name, loginout='log out')
+        return render_template('shop-homepage.html', hello=hello, name=name, loginout='log out', cid=cid)
 
 
 if __name__ == '__main__':

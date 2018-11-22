@@ -105,3 +105,8 @@ button#buttonLogin.btn.btn-lg.btn-block.btn-primary.btn-color:hover{
     border-color: #a5d458;
     background-color: #a5d458
 }
+#productDisplay > div{
+}
+.notShow{
+    display: none;
+}

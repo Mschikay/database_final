@@ -1,6 +1,10 @@
 from sqlalchemy.sql import exists
 from db import sessionDB
 from models import *
+import simplejson as json
+import collections
+from flask import jsonify
+
 
 
 def search(selectRecord):
@@ -26,34 +30,35 @@ def search(selectRecord):
             stID.append(s.stID)
 
         product = sessionDB.query(Product).filter(Product.stID.in_(stID)).\
-            filter(Product.p_name.like('%'+productName+'%'))
+            filter(Product.p_name.like('%'+productName+'%')).limit(50)
         if len(product.all()) < 1:
             return None
         for p in product:
-            result.append([p.pID, p.p_name, p.amount, p.price, p.kind, p.picture])
-        return result
+            result.append(p.to_json())
+        return jsonify(result)
 
     else:
         productName = selectRecord.strip()
-        product = sessionDB.query(Product).filter(Product.p_name.like('%'+productName+'%'))
+        product = sessionDB.query(Product).filter(Product.p_name.like('%'+productName+'%')).limit(50)
         if (len(product.all())) < 1:
             return None     # no such product
 
         for p in product:
-            result.append([p.pID, p.p_name, p.amount, p.price, p.kind, p.picture])
-        return result
+            result.append(p.to_json())
+        return jsonify(result)
 
 
 def searchKind(kind):
     result = []
-    product = sessionDB.query(Product).filter(Product.kind.like('%' + kind + '%'))
+    product = sessionDB.query(Product).filter(Product.kind.like('%' + kind + '%')).limit(50)
 
     if (len(product.all())) < 1:
         return None  # no such product
 
     for p in product:
-        result.append([p.pID, p.p_name, p.amount, p.price, p.kind, p.picture])
-    return result
+        result.append(p.to_json())
+
+    return jsonify(result)
 
 
 if __name__ == '__main__':
