@@ -110,3 +110,77 @@ button#buttonLogin.btn.btn-lg.btn-block.btn-primary.btn-color:hover{
 .notShow{
     display: none;
 }
+
+.shop{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    border: none;
+    /*width: 100%;*/
+    /*height: 20px;*/
+    /*background-color: navajowhite;*/
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
+}
+.add, .del, .undo, .drop{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 0;
+    /*width: 60px;*/
+    /*height: 100%;*/
+    margin: 0 auto;
+    font-size: 15px;
+}
+.add{
+    background-color: whitesmoke;
+}
+.add:hover{
+    cursor: pointer;
+    color: cornflowerblue;
+}
+.del:hover{
+    cursor: pointer;
+    color: cornflowerblue;
+}
+.undo:hover{
+    cursor: pointer;
+    color: cornflowerblue;
+}
+.drop:hover{
+    cursor: pointer;
+    color: cornflowerblue;
+}
+.good{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    font-family: "Apple Braille";
+}
+.good > input{
+    /*width: 276px;*/
+    height: auto;
+    margin: 0 auto;
+    font-size: 20px;
+    border-radius: 4px;
+}
+.check{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.check > #total{
+    display: flex;
+}
+.check > button{
+    display: block;
+    font-size: 15px;
+    border-radius: 4px;
+}
+button:hover{
+    /*color: cornflowerblue;*/
+    cursor: pointer;
+}

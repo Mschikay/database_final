@@ -1,4 +1,4 @@
-from flask import render_template, Flask, session, redirect, url_for, escape, request, flash, jsonify, json
+from flask import render_template, Flask, session, redirect, url_for, escape, request, flash, jsonify, json, make_response
 from flask_cors import CORS, cross_origin
 from config import app
 from sqlalchemy.sql import exists
@@ -12,7 +12,7 @@ CORS(app, support_credentials=True)
 
 # MAIN PAGE
 @app.route('/', methods=['GET', 'POST'])
-@cross_origin(supports_credentials=True)
+@cross_origin(origin='*')
 def main_page():
     session['user'] = ''
     session['status'] = ''
@@ -82,22 +82,12 @@ def isLogin(name, cid):
     hello = "Hello, "
 
     if request.method == 'POST':
-        whichPost = request.form['post']
+        whichPost = request.form.get('post')
 
         # log out
         if whichPost == 'logInOut':
             '''doing log out.'''
             flash('you have logged out.')
-
-        # search, select sql
-        elif whichPost == 'search':
-            selectRecord = request.form.get('selectRecord', None)
-            data = mc.search(selectRecord)
-            app.logger.debug(data)
-            if data:
-                print(data)
-                # turn to json
-                return data
 
         # add to shopping cart
         elif whichPost == "addToCart":
@@ -118,6 +108,15 @@ def isLogin(name, cid):
         if whichCategory:
             # get the result
             data = mc.searchKind(whichCategory)
+            if data:
+                return data
+
+        # search, select sql
+        search = request.args.get('search', '')
+        app.logger.debug(search)
+        if search:
+            data = mc.search(search)
+            app.logger.debug(data)
             if data:
                 return data
 
