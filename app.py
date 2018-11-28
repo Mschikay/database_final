@@ -50,7 +50,7 @@ def main_page():
                         first_name = hr.fname
                         last_name = hr.lname
                     session['fullname'] = first_name + ' ' + last_name
-                    return redirect(url_for('isLogin', name=first_name, cid=session['cID']), 302)
+                    return redirect(url_for('isLogin', name=first_name, cID=session['cID']), 302)
 
                 else:
                     pass
@@ -77,8 +77,8 @@ def register():
 
 
 # PAGE LOADED AFTER LOGIN
-@app.route('/<name>_<cid>/', methods=['GET', 'POST'])
-def isLogin(name, cid):
+@app.route('/<name>_<cID>/', methods=['GET', 'POST'])
+def isLogin(name, cID):
     hello = "Hello, "
 
     if request.method == 'POST':
@@ -89,13 +89,17 @@ def isLogin(name, cid):
             '''doing log out.'''
             flash('you have logged out.')
 
-        # add to shopping cart
-        elif whichPost == "addToCart":
-            pass
-
-        # remove items to cart
-        elif whichPost == 'removeFromCart':
-            pass
+        # place order
+        elif whichPost == "checkout":
+            pID = request.form.getlist('pID')
+            amount = request.form.getlist('amount')
+            price = request.form.getlist('price')
+            quantity = request.form.getlist('quantity')
+            pName = request.form.getlist('pName')
+            print(pID, amount, price, quantity, pName)
+            cID = session['cID']
+            mc.placeOrder(pName, pID, amount, quantity, price, cID)
+            return 'ok'
 
         # unknown request
         else:
@@ -120,7 +124,7 @@ def isLogin(name, cid):
             if data:
                 return data
 
-        return render_template('shop-homepage.html', hello=hello, name=name, loginout='log out', cid=cid)
+        return render_template('shop-homepage.html', hello=hello, name=name, loginout='log out', cID=cID)
 
 
 if __name__ == '__main__':

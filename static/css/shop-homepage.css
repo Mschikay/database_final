@@ -160,14 +160,12 @@ button#buttonLogin.btn.btn-lg.btn-block.btn-primary.btn-color:hover{
     justify-content: flex-start;
     flex-grow: 1;
     font-family: "Apple Braille";
+    text-align: left;
+    overflow: scroll;
+    /*text-overflow:ellipsis;*/
+    white-space: nowrap;
+    border: none;
 }
-/*.good > input{*/
-    /*!*width: 276px;*!*/
-    /*height: auto;*/
-    /*margin: 0 auto;*/
-    /*font-size: 20px;*/
-    /*border-radius: 4px;*/
-/*}*/
 .check{
     display: flex;
     align-items: center;
@@ -197,12 +195,6 @@ input.checkCount{
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 8;
     overflow: hidden;
-}
-.hiddenCart{
-    text-align: left;
-    overflow: scroll;
-    text-overflow:ellipsis;
-    white-space: nowrap;
 }
 .shop > * {
     margin: 0 4px 0 0;
