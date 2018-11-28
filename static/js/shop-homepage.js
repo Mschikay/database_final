@@ -100,18 +100,22 @@ $(document).ready(function () {
 function appendNodeProduct(data){
     for (var i=0;i<data.length;i++){
 
-        var childNode = '<div class="col-lg-4 col-md-6 mb-4">\n' +
+        var childNode = '<div class="col-7 col-md-6 mb-4">\n' +
             '                    <div class="card h-100">\n' +
             '                        <p class="notShow amount">'+data[i].amount+'</p>\n' +
             '                        <p class="notShow kind">'+data[i].kind+'</p>\n' +
             '                        <p class="notShow pID">'+data[i].pID+'</p>\n' +
-            '                        <a class="picture" href="#"><img class="card-img-top" src="'+data[i].picture+'" alt=""></a>\n' +
+            // '                        <a class="picture" href="#"><img class="card-img-top" src="'+data[i].picture+'" alt=""></a>\n' +
             '                        <div class="card-body">' +
-            '                            <h4 class="card-title pName">' +
-                                            data[i].p_name +
-            '                            </h4>' +
-            '                            <h5>'+data[i].price+'</h5>' +
-            '                            <p class="card-text">remain: '+data[i].amount+'</p>' +
+            '                            <div style="height: 230px" >' +
+            '                               <h4 class="card-title pName hidden">' +
+                                            data[i].p_name+
+            '                               </h4>' +
+            '                            </div>' +
+            '                            <div style="height: 50px">' +
+            '                               <h5>'+data[i].price+'</h5>' +
+            '                               <p class="card-text remain">remain: '+data[i].amount+'</p>' +
+            '                            </div>' +
             '                        </div>\n' +
             '                        <div class="card-footer">\n' +
             '                            <svg class="add" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="22px" height="22px" viewBox="0 0 510 510" style="enable-background:new 0 0 510 510;" xml:space="preserve">\n' +
@@ -151,9 +155,11 @@ function appendNodeProduct(data){
         calItem();
     }
     // add to my shopping list
-    function addToList(content){
+    function addToList(content, id){
         // display the good
-        $("#addedItem").prepend("<div class='shop'><div class='del'>DEL</div><div class='good'>"+content+"</div><input class='checkCount' type='number' min='0' value='0'/><div class='drop'>DROP</div></div>");
+        $("#addedItem").prepend("<div class='shop'>" +
+            "<p class='notShow'>"+id+"</p>" +
+            "<p class='good hiddenCart'><span>"+content+"</span></p><input class='checkCount' type='number' min='0' value='0'/><div class='drop'>DROP</div></div>");
         // bind when every time we add a dom node.
         // if we don't bind again, the event cannot be added to the dynamically created node
         $(".del").off("click").on("click", deleteFromList);
@@ -187,6 +193,8 @@ function appendNodeProduct(data){
         }
         else{
             var item = $(this).parent().parent().children('div.card-body')[0].childNodes[1].innerText;
+            var pid = $(this).parent().parent().children('.notShow.pID')[0].innerText;
+            console.log(pid);
             console.log(item);
             addToList(item);
         }

@@ -3,19 +3,9 @@ from sqlalchemy import Column, DECIMAL, Date, ForeignKey, String
 from sqlalchemy.dialects.mysql import INTEGER
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import class_mapper
-
 
 Base = declarative_base()
 metadata = Base.metadata
-
-
-def serialize(model):
-  """Transforms a model into a dictionary which can be dumped to JSON."""
-  # first we get the names of all the columns on your model
-  columns = [c.key for c in class_mapper(model.__class__).columns]
-  # then we return their values in a dict
-  return dict((c, getattr(model, c)) for c in columns)
 
 
 class Addres(Base):
@@ -49,6 +39,7 @@ class Region(Base):
             'r_name': self.r_name
         }
 
+
 class Customer(Base):
     __tablename__ = 'customer'
 
@@ -68,6 +59,7 @@ class Customer(Base):
             'kind': self.kind,
             'aID': self.aID
         }
+
 
 class BusinessCu(Customer):
     __tablename__ = 'business_cus'
@@ -92,8 +84,8 @@ class HomeCu(Customer):
     fname = Column(String(20), nullable=False)
     lname = Column(String(20), nullable=False)
     age = Column(String(10))
-    income = Column(DECIMAL(18, 2))
     marriage = Column(INTEGER(11))
+    remain = Column(DECIMAL(18, 2), nullable=False)
 
     def to_json(self):
         return {
@@ -101,8 +93,8 @@ class HomeCu(Customer):
             'fname': self.fname,
             'lname': self.lname,
             'age': self.age,
-            'income': self.income,
-            'marriage': self.marriage
+            'marriage': self.marriage,
+            'remain': self.remain
         }
 
 class Store(Base):
@@ -125,7 +117,6 @@ class Store(Base):
             'aID': self.aID,
             'rID': self.rID
         }
-
 
 class Product(Base):
     __tablename__ = 'product'
@@ -177,7 +168,6 @@ class Salesperson(Base):
             'stID': self.stID
         }
 
-
 class Transact(Base):
     __tablename__ = 'transact'
 
@@ -199,5 +189,5 @@ class Transact(Base):
             'saID': self.saID,
             'cID': self.cID,
             't_date': self.t_date,
-            'quantitiy': self.quantitiy,
+            'quantitiy': self.quantitiy
         }
