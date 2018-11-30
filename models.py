@@ -61,13 +61,15 @@ class Customer(Base):
         }
 
 
-class BusinessCu(Customer):
+class BusinessCu(Base):
     __tablename__ = 'business_cus'
 
     cID = Column(ForeignKey('customer.cID'), primary_key=True)
     b_name = Column(String(20), nullable=False)
     remain = Column(DECIMAL(18, 2))
     category = Column(String(20))
+
+    customer = relationship('Customer')
 
     def to_json(self):
         return {
@@ -77,7 +79,8 @@ class BusinessCu(Customer):
             'category': self.category
         }
 
-class HomeCu(Customer):
+
+class HomeCu(Base):
     __tablename__ = 'home_cus'
 
     cID = Column(ForeignKey('customer.cID'), primary_key=True)
@@ -86,6 +89,8 @@ class HomeCu(Customer):
     age = Column(String(10))
     marriage = Column(INTEGER(11))
     remain = Column(DECIMAL(18, 2), nullable=False)
+
+    customer = relationship('Customer')
 
     def to_json(self):
         return {

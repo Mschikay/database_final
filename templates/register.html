@@ -19,12 +19,12 @@
     <!--<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">-->
 
     <!-- Vendor CSS-->
-    <link href="front/front/css/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="front/front/css/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+    <link href="{{ url_for('static', filename='css/select2/select2.min.css') }}" rel="stylesheet" media="all">
+    <link href="{{ url_for('static', filename='css/datepicker/daterangepicker.css') }}" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
-    <link href="front/front/css/register.css" rel="stylesheet" media="all">
-    <link href="front/front/css/register1.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/register.css') }}" rel="stylesheet" media="all">
+    <link href="{{ url_for('static', filename='css/register1.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -47,39 +47,13 @@
                                 <input type="radio" name="AdPrintMode" value="2" onclick="divClick();">
                                 <span class="checkmark"></span>
                             </label>
-							
+
                         </div>
                     </div>
-					
-		<script type="text/javascript">
- 	                    function divClick(){
- 
-                        var show="";
-                        var apm = document.getElementsByName("AdPrintMode");
-                        for(var i=0;i<apm.length;i++){
-                        if(apm[i].checked)
-                        show = apm[i].value;
-        }
-      
-        switch (show){
-            case '1':
-                document.getElementById("individual").style.display="block";
-                document.getElementById("business").style.display="none";
-                break;
-            case '2':
-                document.getElementById("individual").style.display="none";
-                document.getElementById("business").style.display="block";
-                break;
-            default:
-                document.getElementById("individual").style.display="none";
-                document.getElementById("business").style.display="none";
-                break;                                                              
-        }
- }
-					</script>
-					
-				<div class="form-row" id="individual" style="display: block">
-					<div class="form-row m-b-55">
+
+
+				    <div class="form-row" id="individual" style="display: block">
+					    <div class="form-row m-b-55">
                         <div class="name">Name</div>
                         <div class="value">
                             <div class="row row-space">
@@ -98,50 +72,50 @@
                             </div>
                         </div>
                     </div>
-					
-                    <div class="form-row">
+
+                        <div class="form-row">
                         <div class="name">Email</div>
                         <div class="value">
                             <div class="input-group">
-                                <input class="input--style-5" type="email" name="email">
+                                <input class="input--style-5" type="email" name="Iemail">
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
+                        <div class="form-row">
                         <div class="name">Password</div>
                         <div class="value">
                             <div class="input-group">
-                                <input class="input--style-5" type="password" name="password">
+                                <input class="input--style-5" type="password" name="Ipassword">
                             </div>
                         </div>
                     </div>
-                    <div class="form-row m-b-55">
+                        <div class="form-row m-b-55">
                         <div class="name">Address</div>
                         <div class="value">
                             <div class="row row-refine">
                                 <div class="col-3">
                                     <div class="input-group-desc">
-                                        <input class="input--style-5" type="text" name="zip_code">
+                                        <input class="input--style-5" type="text" name="Izip_code">
                                         <label class="label--desc">Zip_Code</label>
                                     </div>
                                 </div>
 								<div class="col-8">
                                     <div class="input-group-desc">
-                                        <input class="input--style-5" type="text" name="street">
+                                        <input class="input--style-5" type="text" name="Istreet">
                                         <label class="label--desc">Street</label>
                                     </div>
                                 </div>
-								
+
 								<div class="col-3">
                                     <div class="input-group-desc">
-                                        <input class="input--style-5" type="text" name="city">
+                                        <input class="input--style-5" type="text" name="Icity">
                                         <label class="label--desc">City</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-					<div class="form-row">
+				    	<div class="form-row">
                         <div class="name">Age</div>
                         <div class="value">
                             <div class="input-group">
@@ -149,7 +123,7 @@
                             </div>
                         </div>
                     </div>
-					<div class="form-row">
+				    	<div class="form-row">
                         <div class="name">Annual Income</div>
                         <div class="value">
                             <div class="input-group">
@@ -157,7 +131,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
+                        <div class="form-row">
                         <div class="name">Marriage</div>
                         <div class="value">
                             <div class="input-group">
@@ -172,10 +146,10 @@
                             </div>
                         </div>
                     </div>
-             </div>  
-			
-			<div class="form-row" id="business" style="display: none">
-					<div class="form-row">
+                    </div>
+
+			        <div class="form-row" id="business" style="display: none">
+					    <div class="form-row">
                         <div class="name">Name</div>
                         <div class="value">
                             <div class="input-group">
@@ -183,59 +157,59 @@
                             </div>
                         </div>
                     </div>
-					
-                    <div class="form-row">
+
+                        <div class="form-row">
                         <div class="name">Email</div>
                         <div class="value">
                             <div class="input-group">
-                                <input class="input--style-5" type="email" name="email">
+                                <input class="input--style-5" type="email" name="Bemail">
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
+                      <div class="form-row">
                         <div class="name">Password</div>
                         <div class="value">
                             <div class="input-group">
-                                <input class="input--style-5" type="password" name="password">
+                                <input class="input--style-5" type="password" name="Bpassword">
                             </div>
                         </div>
                     </div>
-                    <div class="form-row m-b-55">
+                      <div class="form-row m-b-55">
                         <div class="name">Address</div>
                         <div class="value">
                             <div class="row row-refine">
                                 <div class="col-3">
                                     <div class="input-group-desc">
-                                        <input class="input--style-5" type="text" name="zip_code">
+                                        <input class="input--style-5" type="text" name="Bzip_code">
                                         <label class="label--desc">Zip_Code</label>
                                     </div>
                                 </div>
 								<div class="col-8">
                                     <div class="input-group-desc">
-                                        <input class="input--style-5" type="text" name="street">
+                                        <input class="input--style-5" type="text" name="Bstreet">
                                         <label class="label--desc">Street</label>
                                     </div>
                                 </div>
-								
+
 								<div class="col-3">
                                     <div class="input-group-desc">
-                                        <input class="input--style-5" type="text" name="city">
+                                        <input class="input--style-5" type="text" name="Bcity">
                                         <label class="label--desc">City</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-					
-					<div class="form-row">
+
+				    	<div class="form-row">
                         <div class="name">Annual Income</div>
                         <div class="value">
                             <div class="input-group">
-                                <input class="input--style-5" type="number" name="annu_income">
+                                <input class="input--style-5" type="number" name="bus_income">
                             </div>
                         </div>
                     </div>
-                    <div class="form-row">
+                      <div class="form-row">
                         <div class="name">Category</div>
                         <div class="value">
                             <div class="input-group">
@@ -250,7 +224,8 @@
                             </div>
                         </div>
                     </div>
-			</div>
+			        </div>
+
                     <div>
                         <button class="btn btn--radius-2 btn--green" type="submit">Register</button>
                     </div>
@@ -261,14 +236,42 @@
 </div>
 
 <!-- Jquery JS-->
-<script src="front/front/js/jquery/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/jquery/jquery.min.js') }}"></script>
+
 <!-- Vendor JS-->
-<script src="front/front/js/select2/select2.min.js"></script>
-<script src="front/front/js/datepicker/moment.min.js"></script>
-<script src="front/front/js/datepicker/daterangepicker.js"></script>
+
+<script src="{{ url_for('static', filename='js/select2/select2.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/datepicker/moment.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/datepicker/daterangepicker.js') }}"></script>
 
 <!-- Main JS-->
-<script src="front/front/js/global.js"></script>
+<script src="{{ url_for('static', filename='js/global.js') }}"></script>
+<script type="text/javascript">
+ 	                    function divClick(){
+
+                        var show="";
+                        var apm = document.getElementsByName("AdPrintMode");
+                        for(var i=0;i<apm.length;i++){
+                        if(apm[i].checked)
+                        show = apm[i].value;
+        }
+
+        switch (show){
+            case '1':
+                document.getElementById("individual").style.display="block";
+                document.getElementById("business").style.display="none";
+                break;
+            case '2':
+                document.getElementById("individual").style.display="none";
+                document.getElementById("business").style.display="block";
+                break;
+            default:
+                document.getElementById("individual").style.display="none";
+                document.getElementById("business").style.display="none";
+                break;
+        }
+ }
+					</script>
 
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 

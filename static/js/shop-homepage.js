@@ -17,6 +17,8 @@
 
 
 $(document).ready(function () {
+    var $productDisplay = document.getElementById('productDisplay');
+
     $.ajaxSetup ({
         cache: true,
         async: false
@@ -26,11 +28,9 @@ $(document).ready(function () {
     /***        search by kind         ***/
     $('.list-group-item').on('click', function(e) {
         e.preventDefault();
-        var kind = $(this).text();
-        console.log('where is ' + kind + '?');
+        var kind = $(this).val();
         var cID = document.getElementById('cID').getAttribute('value');
         var firstName = document.getElementById('firstName').innerText;
-        console.log(cID+firstName);
 
         if (cID === undefined || cID === null){
             alert("please logging");
@@ -41,24 +41,37 @@ $(document).ready(function () {
             $productDisplay.removeChild($productDisplay.firstChild);
         }
         $.getJSON('http://127.0.0.1:5000/'+firstName+'_'+cID, {'kind': kind}, function(data) {
-            console.log(typeof(data));
-            console.log((data.length));
             if (data != null || data !== undefined){
-                appendNodeProduct(data);
+                if (data.length <= 4){
+                    appendNodeProduct(data.slice(0, data.length));
+                }
+                else{
+                    appendNodeProduct(data.slice(0, 4));
+
+                }
+                createPage(data);
             }
         });
     });
 
 
     /***        search by input         ***/
+    // check empty or all is space
+    function isNull(str){
+        if ( str === "" || str === null || str === undefined ) return true;
+        var regu = "^[ ]+$";
+        var re = new RegExp(regu);
+        return re.test(str);
+    }
     $('#buttonSearch').on('click', function(e){
         e.preventDefault();
 
         var firstName = document.getElementById('firstName').innerText;
         var cID = document.getElementById('cID').getAttribute('value');
         var selectRecord = document.getElementById('selectRecord').value;
-        var $productDisplay = document.getElementById('productDisplay');
-
+        if (isNull(selectRecord)){
+            alert('illegal input')
+        }
 
         while($productDisplay.hasChildNodes()) //当elem下还存在子节点时 循环继续
         {
@@ -71,16 +84,17 @@ $(document).ready(function () {
             console.log(typeof(data));
             console.log((data.length));
             if (data != null || data !== undefined){
-                appendNodeProduct(data);
+                if (data.length <= 4){
+                    appendNodeProduct(data.slice(0, data.length));
+                }
+                else{
+                    appendNodeProduct(data.slice(0, 4));
+
+                }
+                createPage(data);
             }
         });
     });
-
-
-    /***        place the order         ***/
-    // $('#placeOrder').on('click', function(e) {
-    //     e.preventDefault();
-    // }
 
 
     /***            cart logic          ***/
@@ -94,13 +108,6 @@ $(document).ready(function () {
         else{
             $(".check").hide();
         }
-    }
-    // check empty or all is space
-    function isNull(str){
-        if ( str === "" || str === null || str === undefined ) return true;
-        var regu = "^[ ]+$";
-        var re = new RegExp(regu);
-        return re.test(str);
     }
     // drop the item
     function dropItem(){
@@ -169,12 +176,48 @@ $(document).ready(function () {
                 '                            </svg>\n' +
                 '                        </div>\n' +
                 '                    </div>\n' +
-                '                </div>'
+                '                </div>';
             $("svg.add").off("click").on("click", add);
 
             $('#productDisplay').append(childNode);
         }
     }
+
+    function createPage (data) {
+        if (data.length <= 4) {
+            var totalPage = 1;
+            var visiblePages = 1;
+        }
+        else{
+            var totalPage = Math.ceil(data.length/4);
+            if (totalPage > 3){
+                visiblePages = 3
+            }else{
+                visiblePages = totalPage
+            }
+        }
+        $('#pagination').twbsPagination({
+                totalPages: totalPage,
+                visiblePages: visiblePages,
+                onPageClick: function (event, page) {
+                    while($productDisplay.hasChildNodes()){
+                        $productDisplay.removeChild($productDisplay.firstChild);
+                    }
+                    console.log(typeof(page));
+                    start = (page-1)*4;
+                    appendNodeProduct(data.slice(start, start+4));
+                }
+            })
+    }
+
+    // $('#pagination').twbsPagination({
+    //     totalPages: 35,
+    //     visiblePages: 7,
+    //     onPageClick: function (event, page) {
+    //         $('#page-content').text('Page ' + page);
+    //     }
+    // });
+
 });
 
 

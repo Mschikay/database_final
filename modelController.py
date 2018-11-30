@@ -5,6 +5,8 @@ from flask import jsonify
 from decimal import Decimal
 
 
+class Error(Exception):
+    pass
 
 def search(selectRecord):
     result = []
@@ -104,7 +106,55 @@ def placeOrder(pName, pid, amount, quantity, price, cID):
         sessionDB.close()
 
 
-if __name__ == '__main__':
-    print(searchKind('clothes'))
+def registerIndividual(street, city, zip_code, email, password, first_name, last_name, age, remain, marriage):
+    try:
+        sessionDB.autocommit = False
+        # insert Address
+        addrRecord = Addres(street=street, city=city, zip_code=zip_code)
 
+        # insert customer
+        cRecord = Customer(email=email, passwords=password, kind='individual')
+        cRecord.addres = addrRecord
+        homeCRecord = HomeCu(fname=first_name, lname=last_name, age=age, marriage=marriage, remain=remain)
+        homeCRecord.customer = cRecord
+
+        sessionDB.add_all([addrRecord, cRecord, homeCRecord])
+        sessionDB.commit()
+
+    except Error as e:
+        print(e)
+        sessionDB.rollback()
+        raise
+    finally:
+        sessionDB.close()
+
+
+def registerBusiness(street, city, zip_code, email, password, name, remain, category):
+    try:
+        sessionDB.autocommit = False
+        # insert Address
+        addrRecord = Addres(street=street, city=city, zip_code=zip_code)
+
+        # insert customer
+        cRecord = Customer(email=email, passwords=password, kind='business', aID=addrRecord.aID)
+        cRecord.addres = addrRecord
+
+        # insert customer
+        bCRecord = BusinessCu(cID=cRecord.cID, b_name=name, remain=remain, category=category)
+        bCRecord.customer = cRecord
+
+        sessionDB.add_all([addrRecord, cRecord, bCRecord])
+        sessionDB.commit()
+
+    except Error as e:
+        print(e)
+        sessionDB.rollback()
+        raise
+    finally:
+        sessionDB.close()
+
+
+if __name__ == '__main__':
+    # registerIndividual('534 Henry St', 'New York', '38110', 'user1@qq.com', '123', 'Fanny', 'Cumber', 333, 82394.23, 1)
+    registerBusiness('9898 Rail St', 'Chicago', '84578', 'user1@org.com', '123', 'user1', 9120, 'beverage')
 # print(type(product[0])) # <class 'models.Product'>

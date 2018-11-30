@@ -200,3 +200,30 @@ input.checkCount{
     margin: 0 4px 0 0;
     padding: 0;
 }
+button#buttonLogin.btn.btn-lg.btn-block.btn-primary.btn-color{
+    border-color: darkgray;
+    background-color: darkgray;
+}
+button#buttonLogin.btn.btn-lg.btn-block.btn-primary.btn-color:hover{
+    border-color: #a5d458;
+    background-color: #a5d458;
+}
+#formLogin > a{
+    color: gray;
+}
+#formLogin > a:hover{
+    color: #a5d458;
+}
+
+.pagination{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: center;
+}
+.pagination li {
+    /*display:inline-block;*/
+    padding:4px;
+    font-size: 11px;
+    border: none;
+}

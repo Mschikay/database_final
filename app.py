@@ -73,7 +73,51 @@ def main_page():
 # REGISTER PAGE
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    return render_template('register.html')
+        if request.method == 'GET':
+            return render_template('register.html')
+
+        if request.method == 'POST':
+            app.logger.debug('waiting for data')
+            # judge individual or business
+            radio_value = request.form['AdPrintMode']
+            # app.logger.debug(radio_value)
+
+            # individual
+            if radio_value == '1':
+                # get individual information
+                first_name = request.form.get('first_name', None)
+                last_name = request.form.get('last_name', None)
+                email = request.form.get('Iemail', None)
+                password = request.form.get('Ipassword', None)
+                zip_code = request.form.get('Izip_code', None)
+                street = request.form.get('Istreet', None)
+                city = request.form.get('Icity', None)
+                age = request.form.get('age', None)
+                remain = request.form.get('annu_income', None)
+                status = request.form.get('subject', None)
+                marriage = 0
+                if status == 'Single':
+                    marriage = 0
+                if status == 'Married':
+                    marriage = 1
+
+                mc.registerIndividual(street, city, zip_code, email, password, first_name, last_name, age, remain, marriage)
+
+            # business
+            if radio_value == '2':
+                # get individual information
+                name = request.form.get('name', None)
+                email = request.form.get('Bemail', None)
+                password = request.form.get('Bpassword', None)
+                zip_code = request.form.get('Bzip_code', None)
+                street = request.form.get('Bstreet', None)
+                city = request.form.get('Bcity', None)
+                remain = request.form.get('bus_income', None)
+                category = request.form.get('subject', None)
+
+                mc.registerBusiness(street, city, zip_code, email, password, name, remain, category)
+
+        return redirect('/')
 
 
 # PAGE LOADED AFTER LOGIN
