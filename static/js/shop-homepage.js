@@ -1,20 +1,3 @@
-// $('#pagination').empty();
-// $('#pagination').removeData("twbs-pagination");
-// $('#pagination').unbind("page");
-// $('#paginationholder').html('');
-// $('#paginationholder').html('<ul id="pagination" class="pagination-sm"></ul>');
-// $('#pagination').twbsPagination({
-//     totalPages: 10,
-//     visiblePages: 1,
-//     next: 'Next',
-//     prev: 'Prev',
-//     onPageClick: function (event, page) {
-//         //fetch content and render here
-//
-//     }
-// });
-
-
 
 $(document).ready(function () {
     var $productDisplay = document.getElementById('productDisplay');
@@ -150,15 +133,17 @@ $(document).ready(function () {
 
     /***            display the product by adding the children          ***/
     function appendNodeProduct(data){
-        for (var i=0;i<data.length;i++){
+        var str = 'http://127.0.0.1:5000/static/db/imgProduct/5dabfd2f588acca4a713f53caa4c3dc8351e948b.jpg'
 
+        for (var i=0;i<data.length;i++){
             var childNode = '<div class="col-7 col-md-6 mb-4">\n' +
                 '                    <div class="card h-100">\n' +
                 '                        <p class="notShow amount">'+data[i].amount+'</p>' +
                 '                        <p class="notShow kind">'+data[i].kind+'</p>\n' +
                 '                        <p class="notShow pID">'+data[i].pID+'</p>' +
                 '                        <p class="notShow price">'+ data[i].price+ '</p>' +
-                '                        <a class="picture" href="#"><img class="card-img-top" src="'+data[i].picture+'" alt=""></a>\n' +
+                '                        <a class="picture" href="#"><img class="card-img-top" src="'+ str +'" alt=""></a>\n' +
+
                 '                        <div class="card-body">' +
                 '                            <div style="height: 230px" >' +
                 '                               <h4 class="card-title pName hidden">' +
