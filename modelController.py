@@ -152,16 +152,31 @@ def placeOrder(pName, pid, amount, quantity, price, cID):
 def registerIndividual(street, city, zip_code, email, password, first_name, last_name, age, remain, marriage):
     try:
         sessionDB.autocommit = False
-        # insert Address
-        addrRecord = Addres(street=street, city=city, zip_code=zip_code)
 
-        # insert customer
-        cRecord = Customer(email=email, passwords=password, kind='individual')
-        cRecord.addres = addrRecord
-        homeCRecord = HomeCu(fname=first_name, lname=last_name, age=age, marriage=marriage, remain=remain)
-        homeCRecord.customer = cRecord
+        emailExist = sessionDB.query(exists().where(Customer.email == email)).scalar()
+        if emailExist:
+            raise Error('Email already exists!')
 
-        sessionDB.add_all([addrRecord, cRecord, homeCRecord])
+        addrExist = sessionDB.query(Addres).filter(Addres.street == street).filter(Addres.city == city)\
+            .filter(Addres.zip_code == zip_code).scalar()
+        if addrExist:
+            addrRecord = sessionDB.query(Addres).filter(Addres.street == street).filter(Addres.city == city) \
+                .filter(Addres.zip_code == zip_code).first()
+            cRecord = Customer(email=email, passwords=password, kind='individual', aID=addrRecord.aID)
+            homeCRecord = HomeCu(fname=first_name, lname=last_name, age=age, marriage=marriage, remain=remain)
+            homeCRecord.customer = cRecord
+            sessionDB.add(cRecord)
+            sessionDB.add(homeCRecord)
+        else:
+            addrRecord = Addres(street=street, city=city, zip_code=zip_code)
+            cRecord = Customer(email=email, passwords=password, kind='individual')
+            cRecord.addres = addrRecord
+            homeCRecord = HomeCu(fname=first_name, lname=last_name, age=age, marriage=marriage, remain=remain)
+            homeCRecord.customer = cRecord
+            sessionDB.add(addrRecord)
+            sessionDB.add(cRecord)
+            sessionDB.add(homeCRecord)
+
         sessionDB.commit()
 
     except Error as e:
@@ -175,18 +190,32 @@ def registerIndividual(street, city, zip_code, email, password, first_name, last
 def registerBusiness(street, city, zip_code, email, password, name, remain, category):
     try:
         sessionDB.autocommit = False
-        # insert Address
-        addrRecord = Addres(street=street, city=city, zip_code=zip_code)
 
-        # insert customer
-        cRecord = Customer(email=email, passwords=password, kind='business', aID=addrRecord.aID)
-        cRecord.addres = addrRecord
+        emailExist = sessionDB.query(exists().where(Customer.email == email)).scalar()
+        print(emailExist)
+        if emailExist:
+            raise Error('Email already exists!')
 
-        # insert customer
-        bCRecord = BusinessCu(cID=cRecord.cID, b_name=name, remain=remain, category=category)
-        bCRecord.customer = cRecord
+        addrExist = sessionDB.query(Addres).filter(Addres.street == street).filter(Addres.city == city) \
+            .filter(Addres.zip_code == zip_code).scalar()
+        if addrExist:
+            addrRecord = sessionDB.query(Addres).filter(Addres.street == street).filter(Addres.city == city) \
+            .filter(Addres.zip_code == zip_code).first()
+            cRecord = Customer(email=email, passwords=password, kind='business', aID=addrRecord.aID)
+            bCRecord = BusinessCu(cID=cRecord.cID, b_name=name, remain=remain, category=category)
+            bCRecord.customer = cRecord
+            sessionDB.add(cRecord)
+            sessionDB.add(bCRecord)
+        else:
+            addrRecord = Addres(street=street, city=city, zip_code=zip_code)
+            cRecord = Customer(email=email, passwords=password, kind='business', aID=addrRecord.aID)
+            cRecord.addres = addrRecord
+            bCRecord = BusinessCu(cID=cRecord.cID, b_name=name, remain=remain, category=category)
+            bCRecord.customer = cRecord
+            sessionDB.add(addrRecord)
+            sessionDB.add(cRecord)
+            sessionDB.add(bCRecord)
 
-        sessionDB.add_all([addrRecord, cRecord, bCRecord])
         sessionDB.commit()
 
     except Error as e:
@@ -198,6 +227,6 @@ def registerBusiness(street, city, zip_code, email, password, name, remain, cate
 
 
 if __name__ == '__main__':
-    # registerIndividual('534 Henry St', 'New York', '38110', 'user1@qq.com', '123', 'Fanny', 'Cumber', 333, 82394.23, 1)
-    registerBusiness('9898 Rail St', 'Chicago', '84578', 'user1@org.com', '123', 'user1', 9120, 'beverage')
+    # registerIndividual('534 Henry St', 'Philli', '38110', 'user11@qq.com', '123', 'Caby', 'Cumber', 33, 34.23, 1)
+    registerBusiness('9898 Rail St', 'Chicago', '84578', 'user3@org.com', '123', 'user1', 9120, 'beverage')
 # print(type(product[0])) # <class 'models.Product'>

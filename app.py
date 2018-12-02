@@ -21,10 +21,12 @@ def main_page():
     flashMsg = ''
 
     if request.method == 'POST':
-        result = {}
-        checkout = request.form.get('post')
         req = request.get_data()
-        whichPost = json.loads(req)
+        # mistakenly hit 'Place order'
+        if len(req) <= 13:
+            return render_template('shop-homepage.html', loginout=loginout)
+        else:
+            whichPost = json.loads(req)
         # login
         if whichPost['post'] == 'logInOut':
             # get email and password from html
@@ -85,7 +87,8 @@ def register():
                 if status == 'Married':
                     marriage = 1
 
-                mc.registerIndividual(street, city, zip_code, email, password, first_name, last_name, age, remain, marriage)
+                mc.registerIndividual(street, city, zip_code, email, password,
+                                      first_name, last_name, age, remain, marriage)
 
             # business
             if radio_value == '2':
@@ -99,7 +102,8 @@ def register():
                 remain = request.form.get('bus_income', None)
                 category = request.form.get('subject', None)
 
-                mc.registerBusiness(street, city, zip_code, email, password, name, remain, category)
+                mc.registerBusiness(street, city, zip_code, email,
+                                    password, name, remain, category)
 
         return redirect('/')
 
