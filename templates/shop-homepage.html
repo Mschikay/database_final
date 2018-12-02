@@ -34,7 +34,7 @@
                     <p id="hello">{{ hello }}</p>
                     <p id="firstName">{{ name }}</p>
                 </li>
-                <li class="nav-item">
+                <li id="loginOut" class="nav-item">
                     <a class="nav-link" href="#" data-toggle="modal" data-target="#signIn">{{ loginout }}</a>
                 </li>
                 <li class="nav-item">
@@ -62,8 +62,16 @@
                     <input type="password" id="inputPassword" name="userPwd" class="form-control" placeholder="Password" required/>
 
                     <label for="buttonLogin" class="sr-only">Login:</label>
-                    <button id="buttonLogin" class="btn btn-lg btn-primary btn-block btn-color" value="login">login</button>
+                    <button id="buttonLogin" type='button' class="btn btn-lg btn-primary btn-block btn-color" value="login">login</button>
                     <a href="{{ url_for('register') }}">No account? Sign up here</a>
+
+                    <br/>
+                    <p id="loginHint"></p>
+
+{#                    {% for message in get_flashed_messages() %}#}
+{#                        {{message}}#}
+{#                    {%endfor%}#}
+                    <br/>
                     <p class="mt-5 mb-3 text-muted">@greeneat</p>
                 </form>
             </div>
@@ -114,7 +122,6 @@
             <div class="row">
                 <div class="col-12 justify-content-center align-items-center">
                     <div id="productDisplay" class="row">
-                        <a class="picture" href="#"><img class="card-img-top" src="{{ url_for('static', filename='db/imgProduct/96eb0ed4a576918a186d55ae3afa98289e68c6ad.jpg') }}" alt=""></a>
                     </div>
                     <!--pagination-->
                     <ul id="pagination" class="pagination"> </ul>
@@ -123,8 +130,6 @@
 
             <!-- /.row -->
         </div>
-
-
 
 
         {#      the cart        #}
@@ -140,7 +145,6 @@
                 <button id="placeOrder">Place Order</button>
             </div>
         </form>
-
 
     </div>
     <!-- /.row -->

@@ -1,4 +1,4 @@
-from flask import render_template, Flask, session, redirect, url_for, escape, request, flash, jsonify, json, make_response
+from flask import render_template, Flask, session, redirect, url_for, escape, request, flash, jsonify, json, Response
 from flask_cors import CORS, cross_origin
 from config import app
 from sqlalchemy.sql import exists
@@ -21,49 +21,33 @@ def main_page():
     flashMsg = ''
 
     if request.method == 'POST':
-        whichPost = request.form.get('post')
-
+        result = {}
+        checkout = request.form.get('post')
+        req = request.get_data()
+        whichPost = json.loads(req)
         # login
-        if whichPost == 'logInOut':
+        if whichPost['post'] == 'logInOut':
             # get email and password from html
-            userEmail = request.form.get('userEmail')
-            userPwd = request.form.get('userPwd')
-
-            emailExist=sessionDB.query(exists().where(Customer.email == userEmail)).scalar()
-            if emailExist:
-                records = sessionDB.query(Customer).filter(Customer.email == userEmail)
-                session['pwd'] = ''
-                r = None
-                for record in records:
-                    r = record
-                if r.passwords == userPwd:
-                    session['pwd'] = r.passwords
-                    session['user'] = r.email
-                    session['status'] = 'login succeed'
-                    session['cID'] = r.cID
-
-                    # get user's name
-                    homeRecord = sessionDB.query(HomeCu).filter(HomeCu.cID == session['cID'])
-                    first_name = ''
-                    last_name = ''
-                    for hr in homeRecord:
-                        first_name = hr.fname
-                        last_name = hr.lname
-                    session['fullname'] = first_name + ' ' + last_name
-                    return redirect(url_for('isLogin', name=first_name, cID=session['cID']), 302)
-
-                else:
-                    pass
-                    # wrong password
+            userEmail = whichPost['userEmail']
+            userPwd = whichPost['userPwd']
+            result = mc.login(userEmail, userPwd)
+            response = Response(
+                response=json.dumps(result),
+                status=200,
+                mimetype='json'
+            )
+            if result['status'] == 'succeed':
+                session['fisrtName'] = result['fname']
+                session['lastName'] = result['lname']
+                session['email'] = result['email']
+                session['cID'] = result['cID']
+                url = url_for('isLogin', name=session['fisrtName'], cID=session['cID'])
+                return Response(response=json.dumps({'redirect': url}), status=200, mimetype='json')
             else:
-                pass
-                # email not exists
-
-
+                return response
         else:
-            app.logger.debug('please login')
-            # return redirect(url_for('index'), 302)
-            return render_template('shop-homepage.html', loginout='Login')
+            return render_template('shop-homepage.html', loginout=loginout)
+
 
     # display by kind
     if request.method == 'GET':
@@ -127,7 +111,6 @@ def isLogin(name, cID):
 
     if request.method == 'POST':
         whichPost = request.form.get('post')
-
         # log out
         if whichPost == 'logInOut':
             '''doing log out.'''

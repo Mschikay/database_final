@@ -8,6 +8,49 @@ from decimal import Decimal
 class Error(Exception):
     pass
 
+
+def login(userEmail, userPwd):
+    emailExist = sessionDB.query(exists().where(Customer.email == userEmail)).scalar()
+    print(emailExist)
+    if emailExist:
+        r = sessionDB.query(Customer).filter(Customer.email == userEmail).first()
+        if r.passwords == userPwd:
+            # get user's name
+            homeRecord = sessionDB.query(HomeCu).filter(HomeCu.cID == r.cID)
+            first_name = ''
+            last_name = ''
+            for hr in homeRecord:
+                first_name = hr.fname
+                last_name = hr.lname
+
+            return {
+                'status': 'succeed',
+                'fname': first_name,
+                'lname': last_name,
+                'email': r.email,
+                'cID': r.cID,
+            }
+
+        else:
+            # wrong password
+            return {
+                'status': 'fail',
+                'fname': None,
+                'lname': None,
+                'email': None,
+                'cID': None
+            }
+    else:
+        # email not exists
+        return {
+            'status': 'fail',
+            'fname': None,
+            'lname': None,
+            'email': None,
+            'cID': None
+        }
+
+
 def search(selectRecord):
     result = []
     # need to query by address

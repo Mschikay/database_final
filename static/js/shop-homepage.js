@@ -8,6 +8,43 @@ $(document).ready(function () {
     });
 
 
+    /***        get login error         ***/
+    $('#buttonLogin').click(function(){
+        var userEmail = $('#inputEmail').val();
+        var userPwd = $('#inputPassword').val();
+        sendData ={
+            'post': 'logInOut',
+            'userEmail': userEmail,
+            'userPwd': userPwd
+        };
+        $.ajax({
+            type: 'POST',
+            url: 'http://127.0.0.1:5000',
+            contentType: 'text/html',
+            data: JSON.stringify(sendData),
+            success: function (data) {  // 这个data是接收到的响应的实体
+                console.log('received???????????????');
+                console.log(data['status']);
+                if(data['status'] === 'fail'){
+                    $("body").bind("redirect",function(e){
+                        e.preventDefault();});
+                    $('#loginHint').text('Wrong email or password!');
+                }
+                if(data.redirect){
+                    window.location.href = data.redirect;
+
+                }
+            },
+            complete: function () {
+                $("body").unbind("redirect");
+            }
+        });
+    });
+
+    // /***            placeOrder          ***/
+    // $('#placeOrder').click(function(e){
+    // });
+
     /***        search by kind         ***/
     $('.list-group-item').on('click', function(e) {
         e.preventDefault();
@@ -133,7 +170,6 @@ $(document).ready(function () {
 
     /***            display the product by adding the children          ***/
     function appendNodeProduct(data){
-        var str = 'http://127.0.0.1:5000/static/db/imgProduct/5dabfd2f588acca4a713f53caa4c3dc8351e948b.jpg'
 
         for (var i=0;i<data.length;i++){
             var childNode = '<div class="col-7 col-md-6 mb-4">\n' +
@@ -142,7 +178,7 @@ $(document).ready(function () {
                 '                        <p class="notShow kind">'+data[i].kind+'</p>\n' +
                 '                        <p class="notShow pID">'+data[i].pID+'</p>' +
                 '                        <p class="notShow price">'+ data[i].price+ '</p>' +
-                '                        <a class="picture" href="#"><img class="card-img-top" src="'+ str +'" alt=""></a>\n' +
+                '                        <a class="picture" href="#"><img class="card-img-top" src="'+ data[i].picture +'" alt=""></a>\n' +
 
                 '                        <div class="card-body">' +
                 '                            <div style="height: 230px" >' +
@@ -169,6 +205,7 @@ $(document).ready(function () {
     }
 
     function createPage (data) {
+        console.log(data.length);
         if (data.length <= 4) {
             var totalPage = 1;
             var visiblePages = 1;
@@ -194,14 +231,6 @@ $(document).ready(function () {
                 }
             })
     }
-
-    // $('#pagination').twbsPagination({
-    //     totalPages: 35,
-    //     visiblePages: 7,
-    //     onPageClick: function (event, page) {
-    //         $('#page-content').text('Page ' + page);
-    //     }
-    // });
 
 });
 
