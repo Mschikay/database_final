@@ -185,8 +185,14 @@
             <!--buy the good, laid at the bottom-->
             <div class="check">
                 <p id="total"></p>
-                <button id="placeOrder" style="display: {{ display }}">Place Order</button>
-                <p style="color:red">{{ hint }}</p>
+                <button id="placeOrder" style="display: {{ display }}" type="submit">Place Order</button>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                    <p style="color:red">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+                {% endwith %}
             </div>
         </form>
 

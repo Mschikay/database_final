@@ -43,8 +43,9 @@ $(document).ready(function () {
         });
     });
 
-    // /***            placeOrder          ***/
-    // $('#placeOrder').click(function(e){
+    /***            placeOrder          ***/
+    // $('#placeOrder').on('submit',function(e){
+    //     return false
     // });
 
     /***        search by kind         ***/

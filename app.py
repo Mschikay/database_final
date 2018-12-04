@@ -37,7 +37,7 @@ def main_page():
                 mimetype='json'
             )
             if result['status'] == 'succeed':
-                session['fisrtName'] = result['fname']
+                session['firstName'] = result['fname']
                 session['lastName'] = result['lname']
                 session['email'] = result['email']
                 session['cID'] = result['cID']
@@ -149,7 +149,9 @@ def isLogin(name, cID):
             print(pID, amount, price, quantity, pName)
             cID = session['cID']
             result = mc.placeOrder(pName, pID, amount, quantity, price, cID)
-            return redirect(url_for('isLogin'), hint=result)
+            flash(result)
+            return redirect(url_for('isLogin', name=session['firstName'], cID=session['cID']))
+            # return Response(response=result, status=200, mimetype='text/html')
 
         # unknown request
         else:
@@ -196,9 +198,8 @@ def logout():
         session.pop('lastName', None)
         session.pop('email', None)
         session.pop('cID', None)
-        return 'You have logged out.'
-    else:
-        return redirect(url_for('main_page'))
+
+    return redirect(url_for('main_page'))
 
 
 if __name__ == '__main__':
