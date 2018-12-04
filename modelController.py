@@ -1,4 +1,4 @@
-from sqlalchemy.sql import exists
+from sqlalchemy.sql import exists, func
 from db import sessionDB
 from models import *
 from flask import jsonify
@@ -61,7 +61,7 @@ def search(selectRecord):
         aID = []
         stID = []
 
-        address = sessionDB.query(Addres).filter(Addres.street.like('%'+address+'%'))
+        address = sessionDB.query(Addres).filter(Addres.street.like('%' + address + '%'))
         if len(address.all()) < 1:
             return None
         for a in address:
@@ -73,8 +73,8 @@ def search(selectRecord):
         for s in store:
             stID.append(s.stID)
 
-        product = sessionDB.query(Product).filter(Product.stID.in_(stID)).\
-            filter(Product.p_name.like('%'+productName+'%')).limit(50)
+        product = sessionDB.query(Product).filter(Product.stID.in_(stID)). \
+            filter(Product.p_name.like('%' + productName + '%')).limit(50)
         if len(product.all()) < 1:
             return None
         for p in product:
@@ -83,9 +83,9 @@ def search(selectRecord):
 
     else:
         productName = selectRecord.strip()
-        product = sessionDB.query(Product).filter(Product.p_name.like('%'+productName+'%')).limit(50)
+        product = sessionDB.query(Product).filter(Product.p_name.like('%' + productName + '%')).limit(50)
         if (len(product.all())) < 1:
-            return None     # no such product
+            return None  # no such product
 
         for p in product:
             result.append(p.to_json())
@@ -109,7 +109,7 @@ def placeOrder(pName, pid, amount, quantity, price, cID):
     try:
         assert len(pid) == len(amount) and len(pid) == len(price) and len(pid) == len(quantity) and len(pid) != 0
 
-        #get user's remain money
+        # get user's remain money
         customer = sessionDB.query(Customer).filter_by(cID=cID).first()
         kind = customer.kind
         if kind == 'individual':
@@ -127,10 +127,10 @@ def placeOrder(pName, pid, amount, quantity, price, cID):
             _quantity = int(quantity[i])
             _price = Decimal(price[i])
             _pName = pName[i]
-            if _quantity > _amount or _quantity*_price > remain:
-                raise Exception('No enough storage for '+_pName)
+            if _quantity > _amount or _quantity * _price > remain:
+                raise Exception('No enough storage for ' + _pName)
             else:
-                remain = remain - _quantity*_price
+                remain = remain - _quantity * _price
                 _amount = _amount - _quantity
                 sessionDB.query(Product).filter(Product.pID == _pid).update({'amount': _amount})
                 sessionDB.query(model).filter(model.cID == cID).update({'remain': remain})
@@ -150,20 +150,43 @@ def placeOrder(pName, pid, amount, quantity, price, cID):
 
 
 def registerIndividual(street, city, zip_code, email, password, first_name, last_name, age, remain, marriage):
-    try:
-        if not street or not city or not zip_code or not email or not password or not first_name or not last_name\
-                or age == None or remain == None or marriage == None:
-            result = 'Form should not be empty!'
-            raise Error(result)
+    sessionDB.autocommit = False
 
-        sessionDB.autocommit = False
+    print(street)
+    print(city)
+    print(zip_code)
+    print(email)
+    print(password)
+    print(first_name)
+    print(last_name)
+    print(age)
+    print(remain)
+    print(marriage)
 
-        emailExist = sessionDB.query(exists().where(Customer.email == email)).scalar()
-        if emailExist:
-            result = 'Email already exists!'
-            raise Error(result)
+    if not street or not city or not zip_code or not email or not password or not first_name or not last_name \
+            or age is None or remain is None or marriage is None:
+        result = 'Form should not be empty!'
+        sessionDB.close()
+        return result
 
-        addrExist = sessionDB.query(Addres).filter(Addres.street == street).filter(Addres.city == city)\
+    elif int(remain) < 0:
+        result = 'illegal money'
+        sessionDB.close()
+        return result
+
+    elif int(age) < 0:
+        result = 'illegal age'
+        sessionDB.close()
+        return result
+
+    elif sessionDB.query(exists().where(Customer.email == email)).scalar():
+        print('for jaf;eaof????')
+        result = 'Email already exists!'
+        sessionDB.close()
+        return result
+
+    else:
+        addrExist = sessionDB.query(Addres).filter(Addres.street == street).filter(Addres.city == city) \
             .filter(Addres.zip_code == zip_code).scalar()
         if addrExist:
             addrRecord = sessionDB.query(Addres).filter(Addres.street == street).filter(Addres.city == city) \
@@ -183,35 +206,41 @@ def registerIndividual(street, city, zip_code, email, password, first_name, last
             sessionDB.add(cRecord)
             sessionDB.add(homeCRecord)
 
-        sessionDB.commit()
-
-    except Error as e:
-        sessionDB.rollback()
-        raise
-    finally:
-        sessionDB.close()
-        return result
+            sessionDB.commit()
+            return 'succeed'
 
 
 def registerBusiness(street, city, zip_code, email, password, name, remain, category):
-    result = ""
-    try:
-        if not street or not city or not zip_code or not email or not password or not name \
-                or not remain or not category:
-            raise Error('Form should not be empty!')
+    sessionDB.autocommit = False
 
-        sessionDB.autocommit = False
+    print(street)
+    print(city)
+    print(zip_code)
+    print(email)
+    print(password)
+    print(name)
+    print(remain)
+    print(category)
 
-        emailExist = sessionDB.query(exists().where(Customer.email == email)).scalar()
-        print(emailExist)
-        if emailExist:
-            raise Error('Email already exists!')
+    if not street or not city or not zip_code or not email or not password or not name \
+            or not remain or not category:
+        sessionDB.close()
+        return 'Form should not be empty!'
 
+    elif int(remain) < 0:
+        sessionDB.close()
+        return 'illegal money'
+
+
+    elif sessionDB.query(exists().where(Customer.email == email)).scalar():
+        return 'Email already exists!'
+
+    else:
         addrExist = sessionDB.query(Addres).filter(Addres.street == street).filter(Addres.city == city) \
             .filter(Addres.zip_code == zip_code).scalar()
         if addrExist:
             addrRecord = sessionDB.query(Addres).filter(Addres.street == street).filter(Addres.city == city) \
-            .filter(Addres.zip_code == zip_code).first()
+                .filter(Addres.zip_code == zip_code).first()
             cRecord = Customer(email=email, passwords=password, kind='business', aID=addrRecord.aID)
             bCRecord = BusinessCu(cID=cRecord.cID, b_name=name, remain=remain, category=category)
             bCRecord.customer = cRecord
@@ -228,18 +257,27 @@ def registerBusiness(street, city, zip_code, email, password, name, remain, cate
             sessionDB.add(bCRecord)
 
         sessionDB.commit()
+        return 'succeed'
 
-    except Error as e:
-        print(e)
-        sessionDB.rollback()
-        raise
-    finally:
-        sessionDB.close()
-        return result
 
+def mostPopular():
+    pID = []
+    pSrc = []
+    pName = []
+    pRecord = sessionDB.query(OrderList.pID, func.sum(OrderList.quantity).label('total'))\
+        .group_by(OrderList.pID).order_by('total')[:-4:-1]
+
+    for p in pRecord:
+        pID.append(p.pID)
+
+    pPicture = sessionDB.query(Product.picture, Product.p_name).filter(Product.pID.in_(pID))
+    for p in pPicture:
+        pSrc.append(p.picture)
+        pName.append(p.p_name)
+    return pSrc, pName
 
 if __name__ == '__main__':
-    # registerIndividual('534 Henry St', 'Philli', '38110', 'user11@qq.com', '123', 'Caby', 'Cumber', 33, 34.23, 1)
-    registerBusiness('9898 Rail St', 'Chicago', '84578', 'user3@org.com', '123', 'user1', 9120, 'beverage')
-
+    # s = registerIndividual('534 Henry St', 'Philli', '38110', 'yiweiyh@gmail.com', '123', 'Caby', 'Cumber', 33, 34.23,
+    # registerBusiness('9898 Rail St', 'Chicago', '84578', 'user3@org.com', '123', 'user1', 9120, 'beverage')
     # print(type(product[0])) # <class 'models.Product'>
+    print(mostPopular())

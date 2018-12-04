@@ -1,5 +1,6 @@
 
 $(document).ready(function () {
+
     var $productDisplay = document.getElementById('productDisplay');
 
     $.ajaxSetup ({
@@ -61,7 +62,7 @@ $(document).ready(function () {
         {
             $productDisplay.removeChild($productDisplay.firstChild);
         }
-        $.getJSON('http://127.0.0.1:5000/'+firstName+'_'+cID, {'kind': kind}, function(data) {
+        $.getJSON('http://127.0.0.1:5000/', {'kind': kind}, function(data) {
             if (data != null || data !== undefined){
                 if (data.length <= 4){
                     appendNodeProduct(data.slice(0, data.length));
@@ -101,7 +102,7 @@ $(document).ready(function () {
 
         console.log(selectRecord);
 
-        $.getJSON('http://127.0.0.1:5000/'+firstName+'_'+cID, {'search': selectRecord}, function(data) {
+        $.getJSON('http://127.0.0.1:5000/', {'search': selectRecord}, function(data) {
             console.log(typeof(data));
             console.log((data.length));
             if (data != null || data !== undefined){
@@ -142,7 +143,7 @@ $(document).ready(function () {
             "<input class='notShow' name='amount' value="+amount+">" +
             "<input class='notShow' name='pID' value="+pID+">" +
             "<input class='notShow' name='price' value="+price+">" +
-            "<input type='text' name='pName' class='good hiddenCart' value='"+item+"'><input class='checkCount' name='quantity' type='number' min='0' value='0'/><div class='drop'>DROP</div></div>");
+            "<input type='text' name='pName' class='good hiddenCart' value='"+item+"'><input class='checkCount' name='quantity' type='number' min='0' value='1'/><div class='drop'>DROP</div></div>");
         // bind when every time we add a dom node.
         // if we don't bind again, the event cannot be added to the dynamically created node
         $(".drop").on("click", dropItem);

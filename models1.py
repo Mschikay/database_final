@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import Column, DECIMAL, Date, ForeignKey, String
+from sqlalchemy import Column, DECIMAL, Date, DateTime, ForeignKey, String, text
 from sqlalchemy.dialects.mysql import INTEGER
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
@@ -74,11 +74,11 @@ class Product(Base):
     __tablename__ = 'product'
 
     pID = Column(INTEGER(11), primary_key=True)
-    p_name = Column(String(50), nullable=False)
+    p_name = Column(String(150))
     amount = Column(INTEGER(11), nullable=False)
     price = Column(DECIMAL(18, 2), nullable=False)
     kind = Column(String(20), nullable=False)
-    picture = Column(String(30))
+    picture = Column(String(150))
     stID = Column(ForeignKey('store.stID', ondelete='SET NULL', onupdate='SET NULL'), index=True)
 
     store = relationship('Store')
@@ -107,6 +107,7 @@ class OrderList(Base):
     pID = Column(ForeignKey('product.pID'), nullable=False, index=True)
     quantity = Column(INTEGER(11), nullable=False)
     price = Column(DECIMAL(18, 2))
+    placetime = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
 
     customer = relationship('Customer')
     product = relationship('Product')

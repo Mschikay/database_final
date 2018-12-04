@@ -38,7 +38,7 @@
                     <a class="nav-link" href="#" data-toggle="modal" data-target="#signIn">{{ loginout }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link notActive" href="#">Order</a>
+                    <a class="nav-link notActive" href="#" style="display:{{ display }}" href="{{ url_for('review') }}">Order</a>
                 </li>
             </ul>
         </div>
@@ -112,6 +112,9 @@
                 <button name="category" href="#" class="list-group-item" type="button" value="Breakfast">Breakfast</button>
                 <button name="category" href="#" class="list-group-item" type="button" value="Baby_Formula">Baby Formula</button>
                 <button name="category" href="#" class="list-group-item" type="button" value="Fresh_Flowers">Fresh Flowers</button>
+                <button name="category" href="#" class="list-group-item" type="button" value="Paper">Paper</button>
+                <button name="category" href="#" class="list-group-item" type="button" value="Cleaning">Cleaning</button>
+                <button name="category" href="#" class="list-group-item" type="button" value="Laundry">Laundry</button>
 
             </form>
 
@@ -122,7 +125,44 @@
             <div class="row">
                 <div class="col-12 justify-content-center align-items-center">
                     <div id="productDisplay" class="row">
+                        <div id="carouselExampleIndicators" class="carousel slide col-12 mt-5" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner" role="listbox">
+                                <div class="carousel-item active">
+                                    <br/>
+                                    <img name="carouselImg" class="d-block img-fluid"  style="margin: 0 auto" alt="No image resource" src={{ mostPopular1 }} >
+                                    <p style="text-align: center">{{ n1 }}</p>
+                                    <br/>
+                                </div>
+                                <div class="carousel-item">
+                                    <br/>
+                                    <img name="carouselImg" class="d-block img-fluid"  style="margin: 0 auto" alt="No image resource" src={{ mostPopular2 }}>
+                                    <p style="text-align: center">{{ n2 }}</p>
+                                    <br/>
+                                </div>
+                                <div class="carousel-item">
+                                    <br/>
+                                    <img name="carouselImg" class="d-block img-fluid"  style="margin: 0 auto" alt="No image resource" src={{ mostPopular3 }}>
+                                    <p style="text-align: center">{{ n3 }}</p>
+                                    <br/>
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" style="background-color: orange">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next" style="background-color: orange">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+
                     </div>
+                    <p id="carouselName"></p>
                     <!--pagination-->
                     <ul id="pagination" class="pagination"> </ul>
                 </div>
@@ -142,7 +182,7 @@
             <!--buy the good, laid at the bottom-->
             <div class="check">
                 <p id="total"></p>
-                <button id="placeOrder">Place Order</button>
+                <button id="placeOrder" style="display: {{ display }}">Place Order</button>
             </div>
         </form>
 

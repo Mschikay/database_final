@@ -1,5 +1,5 @@
 # coding: utf-8
-from sqlalchemy import Column, DECIMAL, Date, ForeignKey, String
+from sqlalchemy import Column, DECIMAL, Date, ForeignKey, String, DateTime, text
 from sqlalchemy.dialects.mysql import INTEGER
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
@@ -217,6 +217,8 @@ class OrderList(Base):
     pID = Column(ForeignKey('product.pID'), nullable=False, index=True)
     quantity = Column(INTEGER(11), nullable=False)
     price = Column(DECIMAL(18, 2))
+    placetime = Column(DateTime, server_default=text("CURRENT_TIMESTAMP"))
+
 
     customer = relationship('Customer')
     product = relationship('Product')

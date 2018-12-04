@@ -11,9 +11,9 @@ CORS(app, support_credentials=True)
 
 
 # MAIN PAGE
-@app.route('/', methods=['GET', 'POST'])
 @cross_origin(origin='*')
-def mainPage():
+@app.route('/', methods=['GET', 'POST'])
+def main_page():
     session['user'] = ''
     session['status'] = ''
     loginout = "login"
@@ -50,10 +50,29 @@ def mainPage():
         else:
             return render_template('shop-homepage.html', loginout=loginout)
 
-
-    # display by kind
+     # display by kind
     if request.method == 'GET':
-        return render_template('shop-homepage.html', loginout=loginout)
+        whichCategory = request.args.get('kind', '')
+        app.logger.debug(whichCategory)
+        if whichCategory:
+            # get the result
+            data = mc.searchKind(whichCategory)
+            if data:
+                return data
+
+        # search, select sql
+        search = request.args.get('search', '')
+        app.logger.debug(search)
+        if search:
+            data = mc.search(search)
+            app.logger.debug(data)
+            if data:
+                return data
+
+        [src1, src2, src3], [n1, n2, n3] = mc.mostPopular()
+        return render_template('shop-homepage.html', loginout='log in',
+                               mostPopular1=src1, mostPopular2=src2, mostPopular3=src3,
+                               n1=n1, n2=n2, n3=n3, display='none')
 
 
 # REGISTER PAGE
@@ -66,7 +85,6 @@ def register():
             print('waiting for data')
             radio_value = request.form.get('AdPrintMode')
 
-            result = "succeed"
             # individual
             if radio_value == '1':
                 # get individual information
@@ -88,6 +106,11 @@ def register():
 
                 result = mc.registerIndividual(street, city, zip_code, email, password,
                                                first_name, last_name, age, remain, marriage)
+                print(result)
+                if result == 'succeed':
+                    return redirect(url_for('main_page'))
+                else:
+                    return render_template('register.html', hint=result)
 
             # business
             if radio_value == '2':
@@ -102,12 +125,12 @@ def register():
                 category = request.form.get('subject', "default")
 
                 result = mc.registerBusiness(street, city, zip_code, email,
-                                    password, name, remain, category)
-            print(result)
-            if result == 'succeed':
-                return render_template(url_for('mainPage'))
-            else:
-                return render_template('register.html', hint=result)
+                                             password, name, remain, category)
+                print(result)
+                if result == 'succeed':
+                    return render_template(url_for('main_page'))
+                else:
+                    return render_template('register.html', hint=result)
 
 
 # PAGE LOADED AFTER LOGIN
@@ -157,7 +180,20 @@ def isLogin(name, cID):
             if data:
                 return data
 
-        return render_template('shop-homepage.html', hello=hello, name=name, loginout='log out', cID=cID)
+        [src1, src2, src3], [n1, n2, n3] = mc.mostPopular()
+        return render_template('shop-homepage.html', hello=hello, name=name, loginout='log out', cID=cID,
+                               mostPopular1=src1, mostPopular2=src2, mostPopular3=src3,
+                               n1=n1, n2=n2, n3=n3, display='block')
+
+
+@app.route('/review', methods=['GET', 'POST'])
+def review():
+    if request.method == 'GET':
+        cID = ''
+        ord = sessionDB.query(OrderList.ID, OrderList.pID, Product.p_name,
+                              OrderList.quantity, OrderList.price, OrderList.placetime)\
+            .join(Product, Product.pID == OrderList.pID).filter(OrderList.cID == cID).all()
+        return render_template('review.html', ord=ord)
 
 
 if __name__ == '__main__':
