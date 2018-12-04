@@ -27,7 +27,8 @@ $(document).ready(function () {
                 console.log(data['status']);
                 if(data['status'] === 'fail'){
                     $("body").bind("redirect",function(e){
-                        e.preventDefault();});
+                        e.preventDefault();
+                    });
                     $('#loginHint').text('Wrong email or password!');
                 }
                 if(data.redirect){

@@ -13,7 +13,7 @@ CORS(app, support_credentials=True)
 # MAIN PAGE
 @app.route('/', methods=['GET', 'POST'])
 @cross_origin(origin='*')
-def main_page():
+def mainPage():
     session['user'] = ''
     session['status'] = ''
     loginout = "login"
@@ -60,14 +60,13 @@ def main_page():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
         if request.method == 'GET':
-            return render_template('register.html')
+            return render_template('register.html', hint='')
 
         if request.method == 'POST':
-            app.logger.debug('waiting for data')
-            # judge individual or business
-            radio_value = request.form['AdPrintMode']
-            # app.logger.debug(radio_value)
+            print('waiting for data')
+            radio_value = request.form.get('AdPrintMode')
 
+            result = "succeed"
             # individual
             if radio_value == '1':
                 # get individual information
@@ -81,14 +80,14 @@ def register():
                 age = request.form.get('age', None)
                 remain = request.form.get('annu_income', None)
                 status = request.form.get('subject', None)
-                marriage = 0
+                marriage = None
                 if status == 'Single':
                     marriage = 0
                 if status == 'Married':
                     marriage = 1
 
-                mc.registerIndividual(street, city, zip_code, email, password,
-                                      first_name, last_name, age, remain, marriage)
+                result = mc.registerIndividual(street, city, zip_code, email, password,
+                                               first_name, last_name, age, remain, marriage)
 
             # business
             if radio_value == '2':
@@ -99,13 +98,16 @@ def register():
                 zip_code = request.form.get('Bzip_code', None)
                 street = request.form.get('Bstreet', None)
                 city = request.form.get('Bcity', None)
-                remain = request.form.get('bus_income', None)
-                category = request.form.get('subject', None)
+                remain = request.form.get('bus_income', 1)
+                category = request.form.get('subject', "default")
 
-                mc.registerBusiness(street, city, zip_code, email,
+                result = mc.registerBusiness(street, city, zip_code, email,
                                     password, name, remain, category)
-
-        return redirect('/')
+            print(result)
+            if result == 'succeed':
+                return render_template(url_for('mainPage'))
+            else:
+                return render_template('register.html', hint=result)
 
 
 # PAGE LOADED AFTER LOGIN

@@ -151,11 +151,17 @@ def placeOrder(pName, pid, amount, quantity, price, cID):
 
 def registerIndividual(street, city, zip_code, email, password, first_name, last_name, age, remain, marriage):
     try:
+        if not street or not city or not zip_code or not email or not password or not first_name or not last_name\
+                or age == None or remain == None or marriage == None:
+            result = 'Form should not be empty!'
+            raise Error(result)
+
         sessionDB.autocommit = False
 
         emailExist = sessionDB.query(exists().where(Customer.email == email)).scalar()
         if emailExist:
-            raise Error('Email already exists!')
+            result = 'Email already exists!'
+            raise Error(result)
 
         addrExist = sessionDB.query(Addres).filter(Addres.street == street).filter(Addres.city == city)\
             .filter(Addres.zip_code == zip_code).scalar()
@@ -180,15 +186,20 @@ def registerIndividual(street, city, zip_code, email, password, first_name, last
         sessionDB.commit()
 
     except Error as e:
-        print(e)
         sessionDB.rollback()
         raise
     finally:
         sessionDB.close()
+        return result
 
 
 def registerBusiness(street, city, zip_code, email, password, name, remain, category):
+    result = ""
     try:
+        if not street or not city or not zip_code or not email or not password or not name \
+                or not remain or not category:
+            raise Error('Form should not be empty!')
+
         sessionDB.autocommit = False
 
         emailExist = sessionDB.query(exists().where(Customer.email == email)).scalar()
@@ -224,9 +235,11 @@ def registerBusiness(street, city, zip_code, email, password, name, remain, cate
         raise
     finally:
         sessionDB.close()
+        return result
 
 
 if __name__ == '__main__':
     # registerIndividual('534 Henry St', 'Philli', '38110', 'user11@qq.com', '123', 'Caby', 'Cumber', 33, 34.23, 1)
     registerBusiness('9898 Rail St', 'Chicago', '84578', 'user3@org.com', '123', 'user1', 9120, 'beverage')
-# print(type(product[0])) # <class 'models.Product'>
+
+    # print(type(product[0])) # <class 'models.Product'>
