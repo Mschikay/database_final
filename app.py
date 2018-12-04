@@ -17,8 +17,6 @@ def main_page():
     session['user'] = ''
     session['status'] = ''
     loginout = "login"
-    error = None
-    flashMsg = ''
 
     if request.method == 'POST':
         req = request.get_data()
@@ -72,7 +70,7 @@ def main_page():
         [src1, src2, src3], [n1, n2, n3] = mc.mostPopular()
         return render_template('shop-homepage.html', loginout='log in',
                                mostPopular1=src1, mostPopular2=src2, mostPopular3=src3,
-                               n1=n1, n2=n2, n3=n3, display='none')
+                               n1=n1, n2=n2, n3=n3, display1='block', display2='none')
 
 
 # REGISTER PAGE
@@ -140,13 +138,9 @@ def isLogin(name, cID):
 
     if request.method == 'POST':
         whichPost = request.form.get('post')
-        # log out
-        if whichPost == 'logInOut':
-            '''doing log out.'''
-            flash('you have logged out.')
 
         # place order
-        elif whichPost == "checkout":
+        if whichPost == "checkout":
             pID = request.form.getlist('pID')
             amount = request.form.getlist('amount')
             price = request.form.getlist('price')
@@ -154,8 +148,8 @@ def isLogin(name, cID):
             pName = request.form.getlist('pName')
             print(pID, amount, price, quantity, pName)
             cID = session['cID']
-            mc.placeOrder(pName, pID, amount, quantity, price, cID)
-            return 'ok'
+            result = mc.placeOrder(pName, pID, amount, quantity, price, cID)
+            return redirect(url_for('isLogin'), hint=result)
 
         # unknown request
         else:
@@ -183,17 +177,28 @@ def isLogin(name, cID):
         [src1, src2, src3], [n1, n2, n3] = mc.mostPopular()
         return render_template('shop-homepage.html', hello=hello, name=name, loginout='log out', cID=cID,
                                mostPopular1=src1, mostPopular2=src2, mostPopular3=src3,
-                               n1=n1, n2=n2, n3=n3, display='block')
+                               n1=n1, n2=n2, n3=n3, display1='none', display2='block', hint="")
 
 
+# ORDER HISTORY
 @app.route('/review', methods=['GET', 'POST'])
 def review():
     if request.method == 'GET':
-        cID = ''
-        ord = sessionDB.query(OrderList.ID, OrderList.pID, Product.p_name,
-                              OrderList.quantity, OrderList.price, OrderList.placetime)\
-            .join(Product, Product.pID == OrderList.pID).filter(OrderList.cID == cID).all()
+        ord = mc.getOrderHistory(session['cID'])
         return render_template('review.html', ord=ord)
+
+
+# LOG OUT
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    if session.get('cID'):
+        session.pop('firstName', None)
+        session.pop('lastName', None)
+        session.pop('email', None)
+        session.pop('cID', None)
+        return 'You have logged out.'
+    else:
+        return redirect(url_for('main_page'))
 
 
 if __name__ == '__main__':

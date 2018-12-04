@@ -106,47 +106,52 @@ def searchKind(kind):
 
 
 def placeOrder(pName, pid, amount, quantity, price, cID):
-    try:
-        assert len(pid) == len(amount) and len(pid) == len(price) and len(pid) == len(quantity) and len(pid) != 0
 
-        # get user's remain money
-        customer = sessionDB.query(Customer).filter_by(cID=cID).first()
-        kind = customer.kind
-        if kind == 'individual':
-            remain = sessionDB.query(HomeCu).filter_by(cID=cID).first().remain
-            model = HomeCu
-        else:
-            remain = sessionDB.query(BusinessCu).filter_by(cID=cID).first().remain
-            model = BusinessCu
-        if remain <= 0:
-            raise Exception('Cannot find enough remain')
-
-        for i in range(len(pid)):
-            _pid = pid[i]
-            _amount = int(amount[i])
-            _quantity = int(quantity[i])
-            _price = Decimal(price[i])
-            _pName = pName[i]
-            if _quantity > _amount or _quantity * _price > remain:
-                raise Exception('No enough storage for ' + _pName)
-            else:
-                remain = remain - _quantity * _price
-                _amount = _amount - _quantity
-                sessionDB.query(Product).filter(Product.pID == _pid).update({'amount': _amount})
-                sessionDB.query(model).filter(model.cID == cID).update({'remain': remain})
-                # save this new order
-                record = OrderList(cID=cID, pID=_pid, quantity=_quantity, price=_price)
-                sessionDB.add(record)
-        sessionDB.commit()
-
-    except Exception as e:
-        # on rollback, the same closure of state
-        # as that of commit proceeds.
-        sessionDB.rollback()
-        print(e.args)
-        raise
-    finally:
+    if not (len(pid) == len(amount) == len(pName) == len(price) == len(quantity)):
         sessionDB.close()
+        return 'Abnormal'
+    if len(pid) == 0 or len(amount) == 0 or len(price) == 0 or len(quantity) == 0:
+        sessionDB.close()
+        return 'Empty Cart'
+
+    # get user's remain money
+    customer = sessionDB.query(Customer).filter_by(cID=cID).first()
+    kind = customer.kind
+    if kind == 'individual':
+        remain = sessionDB.query(HomeCu).filter_by(cID=cID).first().remain
+        model = HomeCu
+    else:
+        remain = sessionDB.query(BusinessCu).filter_by(cID=cID).first().remain
+        model = BusinessCu
+
+    if remain <= 0:
+        sessionDB.close()
+        return 'You Have No Money'
+
+    for i in range(len(pid)):
+        _pid = pid[i]
+        _amount = int(amount[i])
+        _quantity = int(quantity[i])
+        _price = Decimal(price[i])
+        _pName = pName[i]
+        if _quantity > _amount:
+            sessionDB.close()
+            return 'No Enough Storage for ' + _pName+'. '+amount[i]+' is left'
+        elif _quantity * _price > remain:
+            sessionDB.close()
+            return 'Money Is Not Enough!'
+        else:
+            remain = remain - _quantity * _price
+            _amount = _amount - _quantity
+            sessionDB.query(Product).filter(Product.pID == _pid).update({'amount': _amount})
+            sessionDB.query(model).filter(model.cID == cID).update({'remain': remain})
+            # save this new order
+            record = OrderList(cID=cID, pID=_pid, quantity=_quantity, price=_price)
+            sessionDB.add(record)
+
+    sessionDB.commit()
+    sessionDB.close()
+    return 'Order Place. Thank You.'
 
 
 def registerIndividual(street, city, zip_code, email, password, first_name, last_name, age, remain, marriage):
@@ -276,8 +281,14 @@ def mostPopular():
         pName.append(p.p_name)
     return pSrc, pName
 
+
+def getOrderHistory(cID):
+    ord = sessionDB.query(OrderList.ID, OrderList.pID, Product.p_name,
+                    OrderList.quantity, OrderList.price, OrderList.placetime) \
+        .join(Product, Product.pID == OrderList.pID).filter(OrderList.cID == cID).all()
+    return ord
+
+
 if __name__ == '__main__':
-    # s = registerIndividual('534 Henry St', 'Philli', '38110', 'yiweiyh@gmail.com', '123', 'Caby', 'Cumber', 33, 34.23,
-    # registerBusiness('9898 Rail St', 'Chicago', '84578', 'user3@org.com', '123', 'user1', 9120, 'beverage')
-    # print(type(product[0])) # <class 'models.Product'>
-    print(mostPopular())
+    # pName, pid, amount, quantity, price, cID
+    print(placeOrder(['Topshop Rosa Biker Jacket (Regular & Petite)'], ['9'], ['0'], ['18'], ['52.8'], 57))
