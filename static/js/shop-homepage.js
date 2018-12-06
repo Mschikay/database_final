@@ -231,7 +231,7 @@ $(document).ready(function () {
                         $productDisplay.removeChild($productDisplay.firstChild);
                     }
                     console.log(typeof(page));
-                    start = (page-1)*4;
+                    let start = (page-1)*4;
                     appendNodeProduct(data.slice(start, start+4));
                 }
             })
