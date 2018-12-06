@@ -41,7 +41,7 @@ def main_page():
                 session['lastName'] = result['lname']
                 session['email'] = result['email']
                 session['cID'] = result['cID']
-                url = url_for('isLogin', name=session['fisrtName'], cID=session['cID'])
+                url = url_for('isLogin', name=session['firstName'], cID=session['cID'])
                 return Response(response=json.dumps({'redirect': url}), status=200, mimetype='json')
             else:
                 return response

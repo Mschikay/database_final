@@ -232,7 +232,7 @@ def registerBusiness(street, city, zip_code, email, password, name, remain, cate
         sessionDB.close()
         return 'Form should not be empty!'
 
-    elif int(remain) < 0:
+    elif Decimal(remain) < 0:
         sessionDB.close()
         return 'illegal money'
 

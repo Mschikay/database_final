@@ -208,13 +208,15 @@ $(document).ready(function () {
     }
 
     function createPage (data) {
+        var totalPage = 3;
+        var visiblePages = 10;
         console.log(data.length);
         if (data.length <= 4) {
-            var totalPage = 1;
-            var visiblePages = 1;
+            totalPage = 1;
+            visiblePages = 1;
         }
         else{
-            var totalPage = Math.ceil(data.length/4);
+            totalPage = Math.ceil(data.length/4);
             if (totalPage > 3){
                 visiblePages = 3
             }else{
